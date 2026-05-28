@@ -1,725 +1,888 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio de Alex Dupuis-Lepez - Étudiant BUT Informatique Dev & Ops">
-    <title>Alex Dupuis-Lepez | Portfolio Professionnel Dev & Ops</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Dupuis-Lepez — Dev & Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0d0d0d;
+  --paper: #f5f0e8;
+  --accent: #c8402f;
+  --accent2: #2d6a4f;
+  --muted: #7a7267;
+  --card-bg: #fffdf8;
+  --border: #e0d9cc;
+  --tag-bg: #eae4d8;
+}
+[data-theme="dark"] {
+  --ink: #f0ebe0;
+  --paper: #111009;
+  --accent: #e05a45;
+  --accent2: #52b788;
+  --muted: #8a8375;
+  --card-bg: #1a1810;
+  --border: #2e2b22;
+  --tag-bg: #222018;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
 
-    <style>
-        /* --- VARIABLES & THEME --- */
-        :root {
-            --primary: #3b82f6;
-            --primary-dark: #2563eb;
-            --bg-body: #f0f9ff;
-            --bg-card: #ffffff;
-            --text-main: #1e293b;
-            --text-secondary: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --nav-height: 70px;
-        }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+  transition: background .3s, color .3s;
+  overflow-x: hidden;
+}
 
-        /* Thème Sombre */
-        [data-theme="dark"] {
-            --primary: #60a5fa;
-            --primary-dark: #3b82f6;
-            --bg-body: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --border: #334155;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-        }
+/* ─── NOISE TEXTURE OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .4;
+}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s; }
-        
-        html { 
-            scroll-behavior: smooth; 
-            scroll-padding-top: var(--nav-height);
-        }
+/* ─── NAV ─── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%;
+  height: 60px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+.nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: -.02em; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a { font-size: .85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; letter-spacing: .04em; text-transform: uppercase; }
+.nav-links a:hover { color: var(--ink); }
+.theme-btn { background: none; border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; cursor: pointer; font-size: .8rem; color: var(--muted); font-family: 'DM Sans', sans-serif; transition: all .2s; }
+.theme-btn:hover { border-color: var(--ink); color: var(--ink); }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+/* ─── HERO ─── */
+.hero {
+  min-height: calc(100vh - 60px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 5%;
+  position: relative;
+  overflow: hidden;
+}
+.hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 0;
+  position: relative; z-index: 2;
+}
+.hero-eyebrow {
+  font-size: .75rem; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--accent); font-weight: 500; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -.03em;
+  margin-bottom: 8px;
+}
+.hero h1 .name-accent { color: var(--accent); }
+.hero-sub {
+  font-size: 1.1rem; color: var(--muted); font-weight: 300;
+  margin-bottom: 40px; max-width: 420px; font-style: italic;
+}
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 48px; }
+.tag {
+  background: var(--tag-bg); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 4px;
+  font-size: .78rem; font-weight: 500; color: var(--ink);
+  letter-spacing: .03em;
+}
+.tag.accent { background: var(--accent); border-color: var(--accent); color: white; }
+.tag.green { background: var(--accent2); border-color: var(--accent2); color: white; }
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--ink); color: var(--paper);
+  padding: 12px 28px; border-radius: 4px; text-decoration: none;
+  font-size: .85rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase;
+  transition: all .2s;
+}
+.btn-primary:hover { background: var(--accent); }
+.btn-outline {
+  border: 1px solid var(--border); color: var(--muted);
+  padding: 12px 28px; border-radius: 4px; text-decoration: none;
+  font-size: .85rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase;
+  transition: all .2s;
+}
+.btn-outline:hover { border-color: var(--ink); color: var(--ink); }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
+.hero-right {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.hero-visual {
+  width: 320px; height: 400px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  box-shadow: 8px 8px 0 var(--border);
+  position: relative;
+}
+.hero-visual-header {
+  background: var(--tag-bg); border-bottom: 1px solid var(--border);
+  padding: 10px 16px; display: flex; align-items: center; gap: 6px;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r { background: #ff5f57; }
+.dot-y { background: #febc2e; }
+.dot-g { background: #28c840; }
+.hero-code {
+  padding: 20px; font-family: monospace; font-size: .8rem;
+  line-height: 1.8; color: var(--muted); flex: 1;
+}
+.code-line { display: block; }
+.c-key { color: var(--accent); }
+.c-str { color: var(--accent2); }
+.c-num { color: #d4881a; }
+.c-comment { color: var(--muted); font-style: italic; }
+.hero-bg-text {
+  position: absolute; right: -20px; top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-family: 'Syne', sans-serif; font-size: 12rem; font-weight: 800;
+  color: var(--border); letter-spacing: -.05em; white-space: nowrap;
+  pointer-events: none; z-index: 1; line-height: 1;
+  opacity: .5;
+}
 
-        /* --- NAVIGATION --- */
-        .navbar {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 5%;
-            height: var(--nav-height);
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            position: sticky; top: 0; z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
+/* ─── SECTIONS ─── */
+section { padding: 100px 5%; }
+.section-label {
+  display: flex; align-items: center; gap: 12px;
+  font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--accent); font-weight: 500; margin-bottom: 48px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-title {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.03em;
+  line-height: 1.05; margin-bottom: 16px;
+}
+.section-intro { color: var(--muted); font-size: 1.05rem; max-width: 580px; font-weight: 300; margin-bottom: 64px; }
 
-        [data-theme="dark"] .navbar { background: rgba(15, 23, 42, 0.8); }
+/* ─── ABOUT ─── */
+#about { background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+.about-block h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; }
+.about-block p { color: var(--muted); line-height: 1.8; margin-bottom: 16px; font-weight: 300; }
+.info-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.info-list li { display: flex; align-items: flex-start; gap: 12px; font-size: .9rem; color: var(--muted); }
+.info-list li strong { color: var(--ink); min-width: 100px; font-weight: 500; }
+.soft-skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
 
-        .logo { font-weight: 700; font-size: 1.2rem; color: var(--primary); }
-        
-        .nav-links { display: flex; gap: 20px; align-items: center; }
-        .nav-links a {
-            font-size: 0.9rem; font-weight: 500;
-            color: var(--text-main);
-            padding: 8px 16px; border-radius: 8px;
-            transition: 0.3s;
-        }
-        .nav-links a:hover { background: var(--primary); color: white; }
+/* ─── SKILLS ─── */
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.skill-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  padding: 28px; border-radius: 6px;
+  transition: border-color .2s, transform .2s;
+}
+.skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.skill-card-icon { font-size: 1.4rem; margin-bottom: 12px; }
+.skill-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; margin-bottom: 16px; letter-spacing: .02em; }
+.skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.skill-pill { background: var(--tag-bg); border: 1px solid var(--border); padding: 4px 10px; border-radius: 3px; font-size: .75rem; font-weight: 500; color: var(--ink); }
 
-        .theme-toggle {
-            cursor: pointer; font-size: 1.2rem; color: var(--text-main);
-            padding: 5px; border-radius: 50%;
-        }
+/* ─── PROJECTS ─── */
+.project-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden; margin-bottom: 40px;
+  transition: border-color .2s;
+}
+.project-card:hover { border-color: var(--accent); }
+.project-header {
+  padding: 32px 36px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;
+  flex-wrap: wrap;
+}
+.project-header-left { flex: 1; min-width: 260px; }
+.project-number { font-family: 'Syne', sans-serif; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
+.project-title { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: -.02em; margin-bottom: 8px; }
+.project-meta { font-size: .82rem; color: var(--muted); }
+.project-stack { display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start; justify-content: flex-end; max-width: 260px; }
 
-        /* --- CONFIGURATION PLEIN ÉCRAN --- */
-        .full-screen-section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 40px 10%;
-            position: relative;
-        }
+.project-body { padding: 32px 36px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 36px; }
+.project-section h5 {
+  font-family: 'Syne', sans-serif; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); font-weight: 700; margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.project-section p { font-size: .9rem; color: var(--muted); font-weight: 300; line-height: 1.75; margin-bottom: 16px; }
+.project-section p:last-child { margin-bottom: 0; }
+.project-section strong { color: var(--ink); font-weight: 500; }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            text-align: center;
-            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 40%);
-        }
-        
-        .profile-img {
-            width: 150px; height: 150px;
-            border-radius: 50%;
-            border: 4px solid var(--bg-card);
-            box-shadow: var(--shadow);
-            margin: 0 auto 25px;
-            object-fit: cover;
-            display: block;
-        }
+.competences { display: flex; flex-direction: column; gap: 16px; }
+.comp-group h6 { font-size: .75rem; color: var(--accent2); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
+.comp-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.comp-tag { background: var(--tag-bg); border: 1px solid var(--border); padding: 3px 9px; border-radius: 2px; font-size: .72rem; font-weight: 500; color: var(--ink); }
 
-        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 15px; line-height: 1.2; }
-        .hero span { color: var(--primary); }
-        
-        .typewriter {
-            font-family: monospace; color: var(--text-secondary);
-            font-size: 1.3rem; margin-bottom: 40px; display: inline-block;
-            background: var(--bg-card); padding: 5px 15px; border-radius: 8px;
-            border: 1px solid var(--border);
-        }
+.reflexion-box {
+  margin: 0 36px 32px;
+  background: var(--tag-bg); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0;
+  padding: 20px 24px;
+}
+.reflexion-box h5 { font-family: 'Syne', sans-serif; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+.reflexion-box p { font-size: .88rem; color: var(--muted); font-style: italic; font-weight: 300; line-height: 1.75; }
 
-        .btn-cta {
-            background: var(--primary); color: white;
-            padding: 15px 35px; border-radius: 50px; font-weight: 600;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            display: inline-flex; align-items: center; gap: 10px;
-            font-size: 1.1rem;
-            cursor: pointer;
-        }
-        .btn-cta:hover { transform: translateY(-3px); background: var(--primary-dark); }
+.project-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .8rem; font-weight: 500; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--accent); text-decoration: none;
+  padding: 0 36px 28px;
+  transition: gap .2s;
+}
+.project-link:hover { gap: 10px; }
 
-        /* --- SECTIONS --- */
-        .section-title { text-align: center; margin-bottom: 60px; }
-        .section-title h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; }
-        .section-title .bar { width: 60px; height: 5px; background: var(--primary); margin: 0 auto; border-radius: 2px; }
+/* ─── STAGE BANNER ─── */
+.stage-banner {
+  background: var(--ink); color: var(--paper);
+  border-radius: 8px; padding: 48px;
+  margin-bottom: 40px;
+  position: relative; overflow: hidden;
+}
+.stage-banner::before {
+  content: 'ADEO';
+  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+  font-family: 'Syne', sans-serif; font-size: 10rem; font-weight: 800;
+  color: rgba(255,255,255,.05); letter-spacing: -.04em; line-height: 1;
+  pointer-events: none;
+}
+[data-theme="dark"] .stage-banner { background: var(--card-bg); border: 1px solid var(--border); }
+.stage-banner .project-number { color: var(--accent); }
+.stage-banner .project-title { color: var(--paper); }
+[data-theme="dark"] .stage-banner .project-title { color: var(--ink); }
+.stage-banner .project-meta { color: rgba(240,235,224,.6); }
+[data-theme="dark"] .stage-banner .project-meta { color: var(--muted); }
+.stage-inner { display: grid; grid-template-columns: 1.2fr 1fr; gap: 36px; margin-top: 28px; }
+.stage-section h5 { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(240,235,224,.45); font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,.1); }
+[data-theme="dark"] .stage-section h5 { color: var(--muted); border-bottom-color: var(--border); }
+.stage-section p { font-size: .9rem; color: rgba(240,235,224,.75); font-weight: 300; line-height: 1.75; margin-bottom: 16px; }
+[data-theme="dark"] .stage-section p { color: var(--muted); }
+.stage-section strong { color: var(--paper); font-weight: 500; }
+[data-theme="dark"] .stage-section strong { color: var(--ink); }
+.stage-reflexion {
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0; padding: 18px 22px; margin-top: 24px;
+}
+[data-theme="dark"] .stage-reflexion { background: var(--tag-bg); border-color: var(--border); border-left-color: var(--accent); }
+.stage-reflexion p { font-size: .88rem; color: rgba(240,235,224,.65); font-style: italic; font-weight: 300; line-height: 1.75; margin: 0; }
+[data-theme="dark"] .stage-reflexion p { color: var(--muted); }
 
-        /* --- CARDS & GRIDS --- */
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+/* ─── PARCOURS / TIMELINE ─── */
+#parcours { background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 1px; background: var(--border); }
+.timeline-item { position: relative; margin-bottom: 40px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -28px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--paper); border: 2px solid var(--accent);
+}
+.timeline-date { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+.timeline-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+.timeline-sub { font-size: .85rem; color: var(--muted); }
 
-        .card {
-            background: var(--bg-card); padding: 35px; border-radius: 20px;
-            border: 1px solid var(--border); box-shadow: var(--shadow);
-            transition: transform 0.3s; display: flex; flex-direction: column;
-        }
-        .card:hover { transform: translateY(-7px); border-color: var(--primary); }
+/* ─── FOOTER / CONTACT ─── */
+footer {
+  background: var(--ink); color: var(--paper);
+  padding: 80px 5%; text-align: center;
+}
+[data-theme="dark"] footer { background: var(--card-bg); border-top: 1px solid var(--border); }
+footer h2 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 4rem); font-weight: 800; letter-spacing: -.03em; margin-bottom: 12px; }
+footer p { color: rgba(240,235,224,.6); margin-bottom: 40px; font-weight: 300; }
+[data-theme="dark"] footer p { color: var(--muted); }
+.social-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+.social-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(255,255,255,.2); color: rgba(240,235,224,.8);
+  padding: 10px 20px; border-radius: 4px; text-decoration: none;
+  font-size: .82rem; font-weight: 500; letter-spacing: .04em; text-transform: uppercase;
+  transition: all .2s;
+}
+[data-theme="dark"] .social-btn { border-color: var(--border); color: var(--muted); }
+.social-btn:hover { background: var(--accent); border-color: var(--accent); color: white; }
+.footer-copy { font-size: .75rem; opacity: .3; }
 
-        .tech-stack { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-        .badge {
-            font-size: 0.8rem; padding: 5px 12px; border-radius: 20px;
-            background: rgba(59, 130, 246, 0.1); color: var(--primary);
-            font-weight: 600; border: 1px solid rgba(59, 130, 246, 0.2);
-        }
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.hero-left > * { animation: fadeUp .6s ease both; }
+.hero-eyebrow { animation-delay: .1s; }
+.hero h1 { animation-delay: .2s; }
+.hero-sub { animation-delay: .3s; }
+.hero-tags { animation-delay: .4s; }
+.cta-row { animation-delay: .5s; }
+.hero-right { animation: fadeUp .7s .4s ease both; }
 
-        .card h3 { font-size: 1.4rem; margin-bottom: 15px; display: flex; align-items: center; gap: 12px; }
-        .card p { color: var(--text-secondary); font-size: 1rem; margin-bottom: 25px; flex-grow: 1; }
-
-        .btn-link {
-            color: var(--primary); font-weight: 600; margin-top: auto;
-            display: flex; align-items: center; gap: 5px; font-size: 0.95rem;
-        }
-        .btn-link:hover { text-decoration: underline; }
-
-        /* --- SKILLS --- */
-        .skill-category { margin-bottom: 25px; }
-        .skill-category h4 { 
-            margin-bottom: 12px; font-size: 1.1rem; 
-            color: var(--text-main); font-weight: 600;
-            border-bottom: 2px solid rgba(59, 130, 246, 0.1);
-            padding-bottom: 5px;
-            display: inline-block;
-        }
-        
-        .skill-tags {
-            display: flex; flex-wrap: wrap; gap: 10px;
-        }
-        
-        .skill-pill {
-            background: var(--bg-body);
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-main);
-            transition: 0.2s;
-            display: flex; align-items: center; gap: 8px;
-        }
-        
-        .skill-pill:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            transform: translateY(-2px);
-            background: rgba(59, 130, 246, 0.05);
-        }
-        
-        .skill-pill i { color: var(--primary); }
-
-        /* --- TIMELINE --- */
-        .timeline-container { display: flex; flex-direction: column; gap: 20px; }
-        .timeline-item {
-            background: var(--bg-card); padding: 25px; border-radius: 15px;
-            border-left: 5px solid var(--primary);
-            box-shadow: var(--shadow);
-        }
-        .date { font-size: 0.9rem; color: var(--primary); font-weight: 700; text-transform: uppercase; }
-
-        /* --- SYSTEME INTERACTIF MODAL (POUR L'EVALUATION) --- */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            overflow-y: auto;
-            padding: 40px 20px;
-        }
-        .modal-content {
-            background: var(--bg-card);
-            max-width: 950px;
-            margin: 0 auto;
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            position: relative;
-        }
-        .close-modal {
-            position: absolute;
-            top: 20px; right: 20px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: 0.2s;
-        }
-        .close-modal:hover { color: var(--primary); }
-        
-        .modal-header { margin-bottom: 25px; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
-        .modal-header h3 { font-size: 1.8rem; color: var(--primary); display: flex; align-items: center; gap: 15px; }
-        
-        .modal-section { margin-bottom: 25px; }
-        .modal-section h4 { font-size: 1.2rem; margin-bottom: 10px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
-        .modal-section p, .modal-section li { color: var(--text-secondary); font-size: 0.95rem; text-align: justify; }
-        .modal-section ul { padding-left: 20px; list-style-type: square; }
-        .modal-section li { margin-bottom: 8px; }
-
-        .reflexive-box {
-            background: rgba(59, 130, 246, 0.05);
-            border-left: 6px solid var(--primary);
-            padding: 25px;
-            border-radius: 10px;
-            margin-top: 25px;
-        }
-        [data-theme="dark"] .reflexive-box { background: rgba(96, 165, 250, 0.1); }
-        .reflexive-box h5 { font-size: 1.1rem; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-
-        /* --- FOOTER --- */
-        .footer {
-            background: var(--bg-card); padding: 60px 20px; text-align: center;
-            border-top: 1px solid var(--border);
-        }
-        .social-links { display: flex; justify-content: center; gap: 25px; margin: 30px 0; }
-        .social-icon {
-            width: 50px; height: 50px; border-radius: 50%;
-            background: var(--bg-body); color: var(--text-main);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; transition: 0.3s; border: 1px solid var(--border);
-        }
-        .social-icon:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-3px); }
-
-        /* MOBILE RESPONSIVE */
-        @media (max-width: 900px) {
-            .navbar { flex-direction: column; height: auto; padding: 15px; gap: 10px; }
-            .full-screen-section { min-height: auto; padding: 60px 5%; }
-            .hero { min-height: 90vh; }
-            .grid-2, .grid-3 { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.2rem; }
-        }
-    </style>
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .about-grid, .skills-grid { grid-template-columns: 1fr; }
+  .project-body, .stage-inner { grid-template-columns: 1fr; }
+  .project-header { flex-direction: column; }
+  .project-stack { justify-content: flex-start; }
+  .hero-bg-text { display: none; }
+  nav { padding: 0 4%; }
+  .nav-links a { display: none; }
+}
+@media (max-width: 600px) {
+  section { padding: 70px 4%; }
+  .project-header, .project-body, .reflexion-box, .project-link { padding-left: 20px; padding-right: 20px; }
+  .stage-banner { padding: 28px; }
+}
+</style>
 </head>
 <body>
 
-    <nav class="navbar" role="navigation">
-        <div class="logo">&lt;Alex Dupuis-Lepez /&gt;</div>
-        <div class="nav-links">
-            <a href="#about">Parcours</a>
-            <a href="#skills">Compétences</a>
-            <a href="#projects">Projets Réalisés</a>
-            <a href="#contact">Contact</a>
-            <div class="theme-toggle" onclick="toggleTheme()" aria-label="Changer de thème">
-                <i class="fas fa-moon" id="theme-icon"></i>
-            </div>
-        </div>
-    </nav>
+<nav>
+  <div class="nav-logo">&lt;<span>Alex</span> /&gt;</div>
+  <div class="nav-links">
+    <a href="#about">Profil</a>
+    <a href="#skills">Compétences</a>
+    <a href="#projects">Projets</a>
+    <a href="#parcours">Parcours</a>
+    <a href="#contact">Contact</a>
+    <button class="theme-btn" onclick="toggleTheme()" id="theme-btn">☾ Sombre</button>
+  </div>
+</nav>
 
-    <header class="hero full-screen-section">
-        <img src="DUPUIS-LEPEZ portraits iut info-228.jpg" alt="Alex Dupuis-Lepez Portrait" class="profile-img">
-        <h1>Alex <span>Dupuis-Lepez</span></h1>
-        <div class="typewriter">&lt; Architecture Logicielle, Administration Système & Déploiement Continu /&gt;</div>
-        <div>
-            <p style="max-width: 700px; margin: 0 auto; color: var(--text-secondary); font-size: 1.1rem;">
-                Étudiant de confiance en 2ème année de BUT Informatique à l'IUT de Lille, spécialisé en administration, industrialisation et sécurisation d'infrastructures cloud. Développeur Full Stack en stage chez Adeo.
-            </p>
-        </div>
-        <br><br>
-        <div>
-            <a href="#about" class="btn-cta">
-                Consulter mon bilan d'apprentissage <i class="fas fa-arrow-down"></i>
-            </a>
-        </div>
-    </header>
-
-    <section id="about" class="full-screen-section" style="background-color: var(--bg-body)">
-        <div class="section-title">
-            <h2>Présentation & Posture Réflexive</h2>
-            <div class="bar"></div>
-        </div>
-        <div class="grid-2">
-            <div class="card">
-                <h3><i class="fas fa-user-graduate" style="color:var(--primary)"></i> Mon Profil Professionnel</h3>
-                <p style="text-align: justify; margin-bottom: 15px;">
-                    Mon parcours au sein du BUT Informatique à l'Université de Lille (du Semestre 1 au Semestre 4) m'a permis de développer une vision globale du cycle de vie des applications logicielles. Initialement centré sur le développement pur lors des premiers semestres, j'ai rapidement compris que la valeur d'un code réside également dans la qualité, la sécurité et la robustesse de son déploiement sur les infrastructures de production.
-                </p>
-                <p style="text-align: justify; margin-bottom: 20px;">
-                    Aujourd'hui orienté vers la culture DevOps, je me passionne pour la conteneurisation, l'automatisation des architectures cloud et la sécurisation réseau. Mon projet d'orientation se dessine vers une poursuite d'études supérieures en école d'ingénieurs ou en Master spécialisé Cloud/DevOps, avec l'ambition de devenir Architecte d'Infrastructure ou Ingénieur DevOps.
-                </p>
-                <div style="font-size:0.95rem; color:var(--primary); font-weight: 600;">
-                    <i class="fas fa-map-marker-alt"></i> Lille, France | IUT de Lille
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-history" style="color:var(--primary)"></i> Chronologie & Expériences</h3>
-                <div class="timeline-container">
-                    <div class="timeline-item" style="background-color: rgba(59, 130, 246, 0.05); border-left-color: #22c55e;">
-                        <span class="date" style="color: #22c55e;"><i class="fas fa-briefcase"></i> 7 Avril 2026 - 12 Juin 2026 (10 semaines)</span>
-                        <h4 style="margin-top: 5px;">Stage Développeur Full Stack</h4>
-                        <p style="font-weight: 600; color: var(--text-main); margin-bottom: 5px;">ADEO (Engineering & Tech)</p>
-                        <p style="font-size:0.9rem; text-align: justify;">
-                            Immersion totale dans une feature team agile internationale. Conception de microservices back-end, développement d'interfaces web réutilisables, écriture de tests d'intégration, et intégration continue au sein d'environnements cloud managés.
-                        </p>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="date"><i class="fas fa-university"></i> 2024 - Présent (Semestres 1 à 4)</span>
-                        <h4 style="margin-top: 5px;">BUT Informatique</h4>
-                        <p style="font-weight: 600; color: var(--text-main); margin-bottom: 5px;">Université de Lille — Campus IUT</p>
-                        <p style="font-size:0.9rem;">
-                            Parcours axé sur la conception logicielle efficace, la qualité algorithmique, les bases de données avancées, l'administration système Linux et la sécurité des réseaux.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills" class="full-screen-section">
-        <div class="section-title">
-            <h2>Compétences Valorisées (S1-S4)</h2>
-            <div class="bar"></div>
-        </div>
-        <div class="grid-3">
-            <div class="card">
-                <h3><i class="fas fa-code-branch" style="color: var(--primary)"></i> Développement Logiciel</h3>
-                <div class="skill-category">
-                    <h4>Langages & Frameworks</h4>
-                    <div class="skill-tags">
-                        <span class="skill-pill"><i class="fab fa-java"></i> Java / JavaFX</span>
-                        <span class="skill-pill"><i class="fab fa-python"></i> Python</span>
-                        <span class="skill-pill"><i class="fas fa-code"></i> YAML / Shell Bash</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h4>Gestion des Données</h4>
-                    <div class="skill-tags">
-                        <span class="skill-pill"><i class="fas fa-database"></i> SQL avancé</span>
-                        <span class="skill-pill"><i class="fas fa-server"></i> PostgreSQL / SQLite</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h4>Méthodes & Design</h4>
-                    <div class="skill-tags">
-                        <span class="skill-pill">Architecture MVC</span>
-                        <span class="skill-pill">Patrons de Conception</span>
-                        <span class="skill-pill">Clean Code</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3><i class="fas fa-server" style="color: var(--primary)"></i> Infrastructure & DevOps</h3>
-                <div class="skill-category">
-                    <h4>Administration Système</h4>
-                    <div class="skill-tags">
-                        <span class="skill-pill"><i class="fab fa-linux"></i> Linux Debian 12</span>
-                        <span class="skill-pill"><i class="fas fa-terminal"></i> Scripting Automatisé</span>
-                        <span class="skill-pill">Gestion des Sudoers</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h4>Conteneurs & Routage</h4>
-                    <div class="skill-tags">
-                        <span class="skill-pill"><i class="fab fa-docker"></i> Docker Engine</span>
-                        <span class="skill-pill"><i class="fas fa-traffic-light"></i> Reverse Proxy Traefik</span>
-                        <span class="skill-pill">Tunnels SSH / NAT</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h4>Réseau & Services</h4>
-                    <div class="skill-tags">
-                        <span class="skill-pill">Modèle OSI (L2/L3)</span>
-                        <span class="skill-pill">DNS / DHCP / Hosts</span>
-                        <span class="skill-pill">Sauvegardes Rsync</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3><i class="fas fa-brain" style="color: var(--primary)"></i> Soft Skills & Qualités</h3>
-                <div class="skill-category">
-                    <h4>Travail Collaboratif</h4>
-                    <div class="skill-tags">
-                        <span class="skill-pill"><i class="fab fa-git-alt"></i> Git / GitLab Flow</span>
-                        <span class="skill-pill">Méthodologie Agile / Scrum</span>
-                        <span class="skill-pill">Pair Programming</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h4>Gestion de Projet</h4>
-                    <div class="skill-tags">
-                        <span class="skill-pill">Autonomie Technique</span>
-                        <span class="skill-pill">Rigueur d'Analyse</span>
-                        <span class="skill-pill">Résolution de Problèmes</span>
-                        <span class="skill-pill">Gestion du Temps</span>
-                    </div>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 15px; text-align: justify; border-top: 1px dashed var(--border); padding-top: 10px;">
-                    Maîtrise de l'anglais technique (Niveau B1 permettant la lecture fluide des documentations officielles). Posture proactive face aux anomalies logicielles ou réseaux.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="full-screen-section" style="background-color: var(--bg-body)">
-        <div class="section-title">
-            <h2>Projets Clés & Démarche Réflexive</h2>
-            <div class="bar"></div>
-            <p style="margin-top: 10px; color: var(--text-secondary);">Cliquez sur un projet pour ouvrir son rapport d'évaluation complet et son analyse réflexive.</p>
-        </div>
-        <div class="grid-3">
-            
-            <div class="card" onclick="openModal('modal-dolibarr')" style="cursor: pointer;">
-                <div class="tech-stack">
-                    <span class="badge">BASH AUTOMATION</span>
-                    <span class="badge">DOCKER</span>
-                    <span class="badge">TRAEFIK</span>
-                    <span class="badge">POSTGRES</span>
-                </div>
-                <h3>Industrialisation & Hébergement Mutualisé</h3>
-                <p style="text-align: justify;">
-                    Conception d'un script Bash d'automatisation complète pour déployer et cloisonner des serveurs ERP Dolibarr isolés pour des clients, derrière un reverse proxy dynamique Traefik.
-                </p>
-                <span class="btn-link"><i class="fas fa-file-alt"></i> Ouvrir l'analyse réflexive (SAÉ B)</span>
-            </div>
-
-            <div class="card" onclick="openModal('modal-labyrinth')" style="cursor: pointer;">
-                <div class="tech-stack">
-                    <span class="badge">JAVA 21</span>
-                    <span class="badge">JAVAFX</span>
-                    <span class="badge">MVC ARCHITECTURE</span>
-                    <span class="badge">GITLAB</span>
-                </div>
-                <h3>Jeu de Labyrinthes & Algorithmes</h3>
-                <p style="text-align: justify;">
-                    Développement collaboratif en équipe agile d'un jeu de labyrinthes complexes à génération procédurale. Implémentation d'algorithmes de graphes et gestion d'un brouillard de guerre local.
-                </p>
-                <span class="btn-link"><i class="fas fa-file-alt"></i> Ouvrir l'analyse réflexive (SAÉ 3.02)</span>
-            </div>
-
-            <div class="card" onclick="openModal('modal-adeo')" style="cursor: pointer;">
-                <div class="tech-stack">
-                    <span class="badge">FULL STACK</span>
-                    <span class="badge">CLOUD MICROSERVICES</span>
-                    <span class="badge">AGILE SCRUM</span>
-                    <span class="badge">CLEAN CODE</span>
-                </div>
-                <h3>Stage Technologique - Feature Team</h3>
-                <p style="text-align: justify;">
-                    Immersion en entreprise chez ADEO. Développement full stack à haute échelle, optimisation de performances d'API back-end critiques, et application des processus de livraison continue.
-                </p>
-                <span class="btn-link"><i class="fas fa-file-alt"></i> Ouvrir le retour d'expérience</span>
-            </div>
-
-        </div>
-    </section>
-
-    <footer id="contact" class="footer">
-        <h2>Prêt à collaborer ?</h2>
-        <p style="margin-top:10px; color: var(--text-secondary); font-weight: 500;">
-            Actuellement en fin de cycle de BUT 2 — Disponible pour échanger sur mon parcours et mes compétences DevOps.
-        </p>
-        
-        <div class="social-links">
-            <a href="mailto:alexdupuislepez@gmail.com" class="social-icon" title="Envoyer un Email"><i class="fas fa-envelope"></i></a>
-            <a href="https://www.linkedin.com/in/alex-dupuis-lepez-082394346" target="_blank" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://gitlab.univ-lille.fr/alex.dupuis-lepez.etu" target="_blank" class="social-icon" title="GitLab Universitaire"><i class="fab fa-gitlab"></i></a>
-            <a href="https://github.com" target="_blank" class="social-icon" title="GitHub Personnel"><i class="fab fa-github"></i></a>
-        </div>
-        
-        <p style="font-size:0.85rem; color: var(--text-secondary); opacity:0.7">
-            © 2026 Alex Dupuis-Lepez | Conçu de manière sémantique pour l'Évaluation de Communication de BUT Informatique | Hébergé sur GitHub Pages
-        </p>
-    </footer>
-
-    <div id="modal-dolibarr" class="modal" role="dialog" aria-modal="true">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('modal-dolibarr')">&times;</span>
-            <div class="modal-header">
-                <h3><i class="fas fa-server"></i> SAÉ B : Hébergement Mutualisé Industriels & Sécurisé</h3>
-            </div>
-            
-            <div class="modal-section">
-                <h4><i class="fas fa-info-circle"></i> Contexte Général & Cadre du Projet</h4>
-                <p>
-                    Réalisé en binôme au Semestre 4, ce projet se place dans la posture d'un hébergeur cloud. Le but était de concevoir une infrastructure système et réseau virtualisée capable d'accueillir des instances ERP/CRM Dolibarr pour différents clients, de manière automatisée, fiable et sécurisée. L'intégralité du travail repose sur la création de scripts Shell robustes exécutés sur le serveur de virtualisation de l'IUT nommé <code>dattier.iutinfo.fr</code>.
-                </p>
-            </div>
-
-            <div class="modal-section">
-                <h4><i class="fas fa-bullseye"></i> Objectifs Spécifiques & Mon Rôle Personnel</h4>
-                <p>
-                    L'architecture logicielle cible nécessitait le déploiement de 4 machines virtuelles connectées à un commutateur virtuel de l'IUT : un serveur proxy, un serveur applicatif Dolibarr, un serveur de base de données PostgreSQL et un serveur dédié aux sauvegardes rsync.
-                </p>
-                <p style="margin-top: 10px;">
-                    <strong>Mon rôle :</strong> J'ai pris en charge la conception globale du script d'infrastructure <code>deploy.sh</code>. J'ai codé l'automatisation de l'adressage statique des VMs (réseau 10.42.0.0/16), le provisionnement automatique des bases de données SQL cloisonnées par client, l'instanciation dynamique des conteneurs Docker pour Dolibarr, et l'écriture automatique des règles de routage et de Host-matching pour le reverse proxy Traefik afin de diriger le trafic vers <code>http://nomclient.hevea01.iutinfo.fr</code>.
-                </p>
-            </div>
-
-            <div class="modal-section">
-                <h4><i class="fas fa-check-circle"></i> Résultats Obtentus & Preuves Techniques</h4>
-                <p>
-                    Le script produit fonctionne de manière autonome, sans intervention humaine en dehors des paramètres passés en argument. La commande <code>./deploy.sh --total</code> génère et configure l'infrastructure complète de base (PostgreSQL, Docker, Traefik et répertoires de sauvegarde). La commande <code>./deploy.sh --deploy-client &lt;nom&gt; &lt;port&gt;</code> déploie en moins d'une minute une instance opérationnelle : elle crée la DB, lance le conteneur, effectue les configurations d'auto-installation par requêtes HTTP (step2 et step5), génère l'<code>install.lock</code> pour des raisons de sécurité, et injecte à chaud le fichier de routage YAML de Traefik.
-                </p>
-            </div>
-
-            <div class="modal-section">
-                <h4><i class="fas fa-list-alt"></i> Cartographie des Compétences Développées</h4>
-                <ul>
-                    <li><strong>Hard Skills (Techniques) :</strong> Maîtrise avancée du Bash scripting sous Debian, gestion et orchestration de conteneurs isolés via Docker Engine, configuration de réseaux L2/L3 (translation d'adresse NAT, interfaces statiques), et exploitation d'un reverse proxy d'entreprise (Traefik) avec routage dynamique basé sur les entêtes Host.</li>
-                    <li><strong>Soft Skills (Transversales) :</strong> Résolution de problèmes complexes sous contrainte de temps (débogage de l'ordre d'allumage des services), rigueur d'ingénierie pour garantir la reproductibilité totale dans le cadre d'un Plan de Reprise d'Activité (PRA), et organisation du travail en binôme.</li>
-                </ul>
-            </div>
-
-            <div class="reflexive-box">
-                <h5><i class="fas fa-brain"></i> Analyse Réflexive & Recul Critique</h5>
-                <p>
-                    <strong>Ce que ce projet m'a appris :</strong> Cette SAÉ a été le déclic de mon orientation DevOps. Elle m'a fait comprendre la bascule indispensable entre l'administration système manuelle sujette aux erreurs (sujets 1 à 3) [cite: 52, 239, 303] et la puissance de l'automatisation par le code (sujet 5). Le cloisonnement des conteneurs élimine définitivement les conflits de dépendances et limite la surface d'attaque en cas de faille de sécurité[cite: 213, 217].
-                </p>
-                <p style="margin-top: 8px;">
-                    <strong>Difficultés surmontées :</strong> Lors des premiers lancements, le script d'auto-installation de Dolibarr échouait car le conteneur n'avait pas terminé son boot interne au moment où <code>curl</code> attaquait les scripts PHP. J'ai surmonté ce problème en mettant en place un mécanisme de polling HTTP rigoureux : une boucle d'attente active testant le code de retour HTTP de l'application avant de procéder aux étapes suivantes.
-                </p>
-                <p style="margin-top: 8px;">
-                    <strong>Ce que je ferais différemment aujourd'hui :</strong> Fort des compétences acquises durant mon stage chez Adeo, je remplacerais mes scripts Bash monolithiques impératifs par une approche d'Infrastructure-as-Code (IaC) pure en utilisant des playbooks Ansible couplés à Terraform, garantissant une meilleure gestion d'état et une maintenance facilitée.
-                </p>
-            </div>
-        </div>
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-bg-text">DEV OPS</div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">BUT Informatique · Université de Lille · 2ème année</div>
+    <h1>Alex<br><span class="name-accent">Dupuis-</span><br>Lepez</h1>
+    <p class="hero-sub">Je conçois des architectures robustes, du commit jusqu'au serveur de production.</p>
+    <div class="hero-tags">
+      <span class="tag accent">Dev Full-Stack</span>
+      <span class="tag green">Ops & Infra</span>
+      <span class="tag">Linux · Bash</span>
+      <span class="tag">Docker · Git</span>
+      <span class="tag">Stage Adeo 2026</span>
     </div>
-
-    <div id="modal-labyrinth" class="modal" role="dialog" aria-modal="true">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('modal-labyrinth')">&times;</span>
-            <div class="modal-header">
-                <h3><i class="fab fa-java"></i> SAÉ 3.02 : Développement Logiciel et Conception de Labyrinthes Procéduraux [cite: 171]</h3>
-            </div>
-            
-            <div class="modal-section">
-                <h4><i class="fas fa-info-circle"></i> Contexte Général & Cadre du Projet</h4>
-                <p>
-                    Mené au cours du Semestre 3 par équipe de 4 étudiants [cite: 172], ce projet d'envergure croisait trois ressources d'enseignement majeures : le Développement Efficace (R3.02), l'Analyse Orientée Objet (R3.03) et la Qualité de Développement (R3.04)[cite: 171]. L'enjeu était de concevoir un jeu vidéo complet et performant en Java, où un joueur doit traverser des grilles labyrinthiques rectangulaires pour atteindre une sortie[cite: 173, 176].
-                </p>
-            </div>
-
-            <div class="modal-section">
-                <h4><i class="fas fa-bullseye"></i> Objectifs Spécifiques & Mon Rôle Personnel</h4>
-                <p>
-                    Le cahier des charges imposait deux modes de jeu (libre et progression par étapes de défis) [cite: 175], deux typologies de structures (labyrinthes aléatoires avec ratios de murs contrôlés, puis labyrinthes parfaits garantissant un chemin unique entre chaque cellule)[cite: 180, 192, 193]. De plus, le gameplay devait intégrer une gestion de visibilité complexe : brouillard de guerre restreignant la vue locale du joueur et mise à jour dynamique d'une carte globale au fil de l'exploration[cite: 190, 201, 203].
-                </p>
-                <p style="margin-top: 10px;">
-                    <strong>Mon rôle :</strong> En tant que responsable d'architecture logicielle de mon groupe, j'ai conçu la structure globale du projet en appliquant de manière stricte le patron d'architecture MVC (Modèle-Vue-Contrôleur) afin de garantir une séparation étanche entre la logique métier algorithmique et le rendu IHM JavaFX. Sur le plan algorithmique, j'ai écrit le moteur de génération des labyrinthes parfaits en implémentant l'algorithme de Prim adapté aux structures de grilles [cite: 193], et j'ai géré le système d'exploration en temps réel via des calculs matriciels de distance de visibilité locale[cite: 190, 201].
-                </p>
-            </div>
-
-            <div class="modal-section">
-                <h4><i class="fas fa-check-circle"></i> Résultats Obtentus & Preuves Techniques</h4>
-                <p>
-                    L'application finale a été livrée et soutenue avec succès en semaine 48[cite: 172]. Elle intègre une interface utilisateur graphique JavaFX fluide, un module persistant de gestion des scores et des profils joueurs [cite: 185], et se démarque par des fonctionnalités originales conçues en équipe (objets bonus/malus permettant de casser des murs ou de se téléporter)[cite: 205]. Le code a été jugé hautement modulaire, propre et documenté par le jury d'évaluation[cite: 172].
-                </p>
-            </div>
-
-            <div class="modal-section">
-                <h4><i class="fas fa-list-alt"></i> Cartographie des Compétences Développées</h4>
-                <ul>
-                    <li><strong>Hard Skills (Techniques) :</strong> Programmation Orientée Objet (POO) avancée en Java, maîtrise de la bibliothèque graphique JavaFX, implémentation d'algorithmes de parcours et d'arbres couvrants de graphes (Prim, DFS, BFS)[cite: 193], et gestion fine du versioning Git sous GitLab (branches, résolution de conflits, revues de code).</li>
-                    <li><strong>Soft Skills (Transversales) :</strong> Leadership technique et animation d'équipe, communication interpersonnelle pour coordonner les tâches d'analyse et de code [cite: 172], adaptabilité face aux exigences agiles de jalons intermédiaires[cite: 172].</li>
-                </ul>
-            </div>
-
-            <div class="reflexive-box">
-                <h5><i class="fas fa-brain"></i> Analyse Réflexive & Recul Critique</h5>
-                <p>
-                    <strong>Ce que ce projet m'a appris :</strong> Ce projet a été ma première confrontation avec le développement collaboratif à 4. J'ai compris de manière concrète qu'un code qui fonctionne mais qui est mal architecturé ou mal documenté détruit la vélocité d'une équipe. Adopter des normes sémantiques et un pattern rigoureux comme le MVC est un impératif industriel, pas seulement une contrainte scolaire.
-                </p>
-                <p style="margin-top: 8px;">
-                    <strong>Difficultés surmontées :</strong> Au milieu du jalon 2, l'équipe a fait face à de lourds conflits de fusion (merge conflicts) sur GitLab entre la branche du modèle métier et celle de l'IHM JavaFX. Pour résoudre cela, j'ai instauré des sessions quotidiennes de synchronisation et imposé l'utilisation d'interfaces Java pures pour fixer les contrats de communication entre le Modèle et la Vue avant d'écrire le code, résolvant définitivement les frictions de fusion.
-                </p>
-                <p style="margin-top: 8px;">
-                    <strong>Ce que je ferais différemment aujourd'hui :</strong> L'erreur majeure de notre équipe a été de tester l'application uniquement de manière manuelle durant les premières semaines. Si je devais réécrire cette application, je mettrais en place un harnais complet de tests unitaires automatisés avec JUnit dès le premier jour pour valider la connectivité logique des labyrinthes avant de concevoir l'interface graphique.
-                </p>
-            </div>
-        </div>
+    <div class="cta-row">
+      <a href="#projects" class="btn-primary">Voir mes projets</a>
+      <a href="mailto:alexdupuislepez@gmail.com" class="btn-outline">Me contacter</a>
     </div>
-
-    <div id="modal-adeo" class="modal" role="dialog" aria-modal="true">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('modal-adeo')">&times;</span>
-            <div class="modal-header">
-                <h3><i class="fas fa-briefcase"></i> Stage de Fin d'Études : Développeur Full Stack chez ADEO</h3>
-            </div>
-            
-            <div class="modal-section">
-                <h4><i class="fas fa-info-circle"></i> Contexte Général & Cadre de l'Immersion Professionnelle</h4>
-                <p>
-                    D'une durée obligatoire de 10 semaines (du 7 avril au 12 juin 2026), ce stage de fin de cycle s'est déroulé au sein de la direction technique d'ADEO (Lille), leader international de l'amélioration de l'habitat et de la maison connectée. J'ai eu l'opportunité de m'intégrer complètement au sein d'une feature team d'ingénierie logicielle travaillant sur des écosystèmes applicatifs web d'envergure, soumis à de fortes charges utilisateurs.
-                </p>
-            </div>
-
-            <div class="modal-section">
-                <h4><i class="fas fa-bullseye"></i> Objectifs Spécifiques & Mes Contributions Personnelles</h4>
-                <p>
-                    Les objectifs confiés par mon tuteur d'entreprise étaient doubles : participer activement au développement de nouvelles fonctionnalités transversales pour répondre aux besoins business, et auditer/optimiser les performances d'endpoints d'API back-end existants qui présentaient des goulots d'étranglement en production.
-                </p>
-                <p style="margin-top: 10px;">
-                    <strong>Mes actions :</strong> Parfaitement intégré dans les cycles agiles Scrum de l'équipe, j'ai développé des composants d'interface utilisateur responsives et accessibles, alignés sur le design system de l'entreprise. Côté back-end, j'ai conçu et exposé des routes d'API RESTful robustes, optimisé des requêtes SQL complexes et écrit des scripts d'intégration. J'ai également participé activement à toutes les cérémonies agiles (Daily Stand-ups, Sprints Plannings, Rétrospectives) et soumis l'intégralité de mon code à des revues de pairs exigeantes.
-                </p>
-            </div>
-
-            <div class="modal-section">
-                <h4><i class="fas fa-check-circle"></i> Résultats Obtentus & Impact Business</h4>
-                <p>
-                    Toutes les user stories qui m'ont été attribuées ont été développées, testées et déployées avec succès en production. Ma contribution majeure réside dans la refonte de la logique d'interrogation d'une base de données relationnelle critique : en analysant les plans d'exécution et en supprimant un problème de requêtes N+1 récurrent, j'ai divisé par deux le temps de réponse (latence) de l'API sur ce périmètre, améliorant directement l'expérience des utilisateurs finaux.
-                </p>
-            </div>
-
-            <div class="modal-section">
-                <h4><i class="fas fa-list-alt"></i> Cartographie des Compétences Validées en Entreprise</h4>
-                <ul>
-                    <li><strong>Hard Skills (Techniques) :</strong> Développement Full Stack moderne, maîtrise de l'ingénierie des bases de données en production (optimisation d'index, requêtes complexes), tests d'intégration approfondis, et utilisation quotidienne de pipelines d'intégration et de livraison continues (CI/CD) dans un environnement Cloud.</li>
-                    <li><strong>Soft Skills (Transversales) :</strong> Communication transversale et vulgarisation technique, intégration rapide au sein d'une équipe de professionnels seniors, curiosité intellectuelle pour appréhender une base de code d'entreprise immense, et gestion autonome des priorités.</li>
-                </ul>
-            </div>
-
-            <div class="reflexive-box">
-                <h5><i class="fas fa-brain"></i> Analyse Réflexive & Recul Critique</h5>
-                <p>
-                    <strong>Ce que cette expérience m'a appris :</strong> Mon stage chez Adeo a été le véritable catalyseur de ma maturité professionnelle. Il m'a permis de confronter les concepts académiques théoriques appris à l'IUT (comme les patrons de conception ou la normalisation de bases de données PostgreSQL) aux réalités industrielles de la haute disponibilité et de la scalabilité. J'ai pris conscience qu'en entreprise, écrire un code "qui marche" ne suffit pas : il doit être lisible, testé, sécurisé et conçu pour être maintenu par d'autres ingénieurs.
-                </p>
-                <p style="margin-top: 8px;">
-                    <strong>Difficultés surmontées :</strong> Durant les deux premières semaines, j'ai éprouvé des difficultés à m'approprier l'immense écosystème de microservices de l'entreprise et ses outils internes propriétaires. J'ai surmonté cela en adoptant une posture proactive : j'ai passé du temps à étudier l'architecture documentaire interne, sollicité des sessions de pair programming avec des développeurs seniors et posé des questions ciblées, ce qui m'a rendu pleinement autonome dès la troisième semaine.
-                </p>
-                <p style="margin-top: 8px;">
-                    <strong>Ce que je ferais différemment aujourd'hui :</strong> En début de stage, j'avais tendance à sous-estimer l'effort requis pour certaines tâches lors des Sprints Plannings, ce qui créait des fins de sprints denses. Fort de cette expérience, j'ai appris à découper systématiquement chaque story technique en sous-tâches élémentaires atomiques afin de fournir des estimations complexes beaucoup plus réalistes et fiables.
-                </p>
-            </div>
-        </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="hero-visual-header">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+      </div>
+      <div class="hero-code">
+        <span class="code-line c-comment">// alex.dupuis-lepez.profile</span>
+        <span class="code-line">&nbsp;</span>
+        <span class="code-line"><span class="c-key">const</span> alex = {</span>
+        <span class="code-line">&nbsp;&nbsp;role: <span class="c-str">"Dev &amp; Ops"</span>,</span>
+        <span class="code-line">&nbsp;&nbsp;year: <span class="c-num">2</span>,</span>
+        <span class="code-line">&nbsp;&nbsp;location: <span class="c-str">"Lille, FR"</span>,</span>
+        <span class="code-line">&nbsp;&nbsp;stack: [</span>
+        <span class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"Java"</span>, <span class="c-str">"Linux"</span>,</span>
+        <span class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"Docker"</span>, <span class="c-str">"Bash"</span>,</span>
+        <span class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"PostgreSQL"</span></span>
+        <span class="code-line">&nbsp;&nbsp;],</span>
+        <span class="code-line">&nbsp;&nbsp;seeking: <span class="c-str">"Alternance 2026"</span>,</span>
+        <span class="code-line">};</span>
+        <span class="code-line">&nbsp;</span>
+        <span class="code-line c-comment">// Dernier poste :</span>
+        <span class="code-line"><span class="c-key">export</span> { <span class="c-str">Adeo</span> <span class="c-comment">// Stage S4</span> }</span>
+      </div>
     </div>
+  </div>
+</section>
 
-    <script>
-        // --- LOGIQUE DU MODE SOMBRE / CLAIR ---
-        const body = document.body;
-        const icon = document.getElementById('theme-icon');
-        
-        const currentTheme = localStorage.getItem('theme');
-        if (currentTheme) {
-            body.setAttribute('data-theme', currentTheme);
-            if (currentTheme === 'dark') {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            }
-        }
+<!-- ─── ABOUT ─── -->
+<section id="about">
+  <div class="section-label">01 · Présentation</div>
+  <h2 class="section-title">Mon profil</h2>
+  <div class="about-grid">
+    <div class="about-block">
+      <h3>À propos</h3>
+      <p>Je suis étudiant en 2ème année de <strong>BUT Informatique parcours Déploiement d'Applications Communicantes et Sécurisées (DACS)</strong> à l'Université de Lille. Mon parcours m'a amené à travailler aussi bien sur le code (développement Java, web) que sur l'infrastructure (Linux, Docker, réseaux).</p>
+      <p>Ce qui me passionne, c'est le pont entre le Dev et les Ops : comprendre comment une application naît dans un IDE et comment elle vit — et survit — en production. Ce fil directeur guide tous mes projets, de la SAÉ Déploiement au stage chez Adeo.</p>
+      <p>Après la licence, j'envisage une poursuite en master ou école d'ingénieur avec une spécialisation DevOps / Cloud, ou une intégration directe en entreprise via alternance.</p>
+      <ul class="info-list">
+        <li><strong>Localisation</strong> Lille, France</li>
+        <li><strong>Formation</strong> BUT Informatique DACS, Univ. Lille</li>
+        <li><strong>Anglais</strong> B1 — Technique</li>
+        <li><strong>Permis</strong> Permis B</li>
+      </ul>
+    </div>
+    <div class="about-block">
+      <h3>Soft skills & posture</h3>
+      <p>Je crois qu'un bon technicien est d'abord quelqu'un qui sait communiquer, prendre du recul et apprendre de ses erreurs. Ces qualités se sont affûtées projet après projet :</p>
+      <div class="soft-skills">
+        <span class="tag">💡 Curiosité technique</span>
+        <span class="tag">🤝 Travail en équipe</span>
+        <span class="tag">🔍 Rigueur & documentation</span>
+        <span class="tag">⚡ Adaptabilité</span>
+        <span class="tag">🗓️ Organisation Agile</span>
+        <span class="tag">🐛 Résolution de problèmes</span>
+        <span class="tag">📝 Communication écrite</span>
+        <span class="tag">🚀 Autonomie</span>
+      </div>
+      <p style="margin-top: 20px;">Ces compétences ne sont pas abstraites : elles ont été sollicitées concrètement — lors de la refonte de l'architecture de déploiement en SAÉ, lors des revues de code en équipe sur le projet Labyrinthe, ou face aux incidents de production chez Adeo.</p>
+    </div>
+  </div>
+</section>
 
-        function toggleTheme() {
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            }
-        }
+<!-- ─── SKILLS ─── -->
+<section id="skills">
+  <div class="section-label">02 · Compétences</div>
+  <h2 class="section-title">Stack technique</h2>
+  <p class="section-intro">Compétences construites au fil des SAÉ, cours et expériences professionnelles, du S1 au S4.</p>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-icon">☕</div>
+      <h4>Développement</h4>
+      <div class="skill-pills">
+        <span class="skill-pill">Java</span>
+        <span class="skill-pill">JavaFX</span>
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">HTML/CSS/JS</span>
+        <span class="skill-pill">SQL</span>
+        <span class="skill-pill">PostgreSQL</span>
+        <span class="skill-pill">MVC</span>
+        <span class="skill-pill">POO</span>
+        <span class="skill-pill">Algorithmique</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🐧</div>
+      <h4>Ops & Système</h4>
+      <div class="skill-pills">
+        <span class="skill-pill">Linux (Debian)</span>
+        <span class="skill-pill">Bash scripting</span>
+        <span class="skill-pill">Docker</span>
+        <span class="skill-pill">Git / Gitea</span>
+        <span class="skill-pill">GitHub</span>
+        <span class="skill-pill">SSH</span>
+        <span class="skill-pill">APT / Paquets</span>
+        <span class="skill-pill">VirtualBox / VMs</span>
+        <span class="skill-pill">Reverse proxy</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🌐</div>
+      <h4>Réseau & Sécurité</h4>
+      <div class="skill-pills">
+        <span class="skill-pill">Modèle OSI (L2/L3)</span>
+        <span class="skill-pill">DNS / DHCP</span>
+        <span class="skill-pill">NAT & Routage</span>
+        <span class="skill-pill">Traefik</span>
+        <span class="skill-pill">Nginx / Apache</span>
+        <span class="skill-pill">Cryptographie SSH</span>
+        <span class="skill-pill">Sudo / Permissions</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🛠️</div>
+      <h4>Méthodes & Outils</h4>
+      <div class="skill-pills">
+        <span class="skill-pill">Agile / Scrum</span>
+        <span class="skill-pill">GitLab CI</span>
+        <span class="skill-pill">Markdown / Docs</span>
+        <span class="skill-pill">VS Code</span>
+        <span class="skill-pill">IntelliJ IDEA</span>
+        <span class="skill-pill">UML</span>
+        <span class="skill-pill">Diagrammes de classes</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">☁️</div>
+      <h4>En cours d'apprentissage</h4>
+      <div class="skill-pills">
+        <span class="skill-pill">React / Node.js</span>
+        <span class="skill-pill">Docker Compose</span>
+        <span class="skill-pill">CI/CD pipelines</span>
+        <span class="skill-pill">Kubernetes (notions)</span>
+        <span class="skill-pill">TypeScript</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🎓</div>
+      <h4>Unités d'enseignement</h4>
+      <div class="skill-pills">
+        <span class="skill-pill">UE1 · Implémentation</span>
+        <span class="skill-pill">UE2 · Développement</span>
+        <span class="skill-pill">UE3 · Administration</span>
+        <span class="skill-pill">UE5 · Analyse</span>
+        <span class="skill-pill">UE6 · Collaboration</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // --- LOGIQUE INTERACTIVE DES FENÊTRES MODALES (COMPÉTENCES) ---
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Empêche le scroll en arrière-plan
-        }
+<!-- ─── PROJECTS ─── -->
+<section id="projects" style="background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-label">03 · Projets</div>
+  <h2 class="section-title">Ce que j'ai construit</h2>
+  <p class="section-intro">Chaque projet présenté ici documente le contexte, ma contribution personnelle, les compétences mobilisées et mon analyse réflexive.</p>
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto'; // Rétablit le scroll
-        }
+  <!-- STAGE ADEO -->
+  <div class="stage-banner">
+    <div class="project-number">Stage · S4 · Adeo · Avril–Juin 2026</div>
+    <div class="project-title">Développeur Full-Stack — Adeo</div>
+    <div class="project-meta">Stage 10 semaines · 7 avril → 12 juin 2026 · Leroy Merlin / Adeo Group · Lezennes</div>
+    <div class="project-stack" style="margin-top:12px; justify-content: flex-start;">
+      <span class="tag accent">React</span>
+      <span class="tag">Node.js</span>
+      <span class="tag">TypeScript</span>
+      <span class="tag">Docker</span>
+      <span class="tag">Git</span>
+      <span class="tag">APIs REST</span>
+    </div>
+    <div class="stage-inner">
+      <div class="stage-section">
+        <h5>Contexte & mission</h5>
+        <p>Dans le cadre de mon S4, j'ai effectué un stage de 10 semaines chez <strong>Adeo</strong> (groupe Leroy Merlin), l'un des leaders mondiaux du bricolage, au sein d'une équipe produit. Ma mission portait sur le développement full-stack de fonctionnalités au sein d'une application interne, en environnement Agile.</p>
+        <p>J'ai participé aux <strong>cérémonies Scrum</strong> (daily, sprint planning, rétrospectives), travaillé sur des tickets réels avec impact direct sur les utilisateurs internes, et j'ai appris à naviguer dans une base de code d'entreprise de grande échelle.</p>
+      </div>
+      <div class="stage-section">
+        <h5>Compétences développées</h5>
+        <div class="competences">
+          <div class="comp-group">
+            <h6>Hard skills</h6>
+            <div class="comp-tags">
+              <span class="comp-tag" style="background:rgba(200,64,47,.15); border-color:rgba(200,64,47,.3); color:#e05a45">React / TS</span>
+              <span class="comp-tag" style="background:rgba(200,64,47,.15); border-color:rgba(200,64,47,.3); color:#e05a45">APIs REST</span>
+              <span class="comp-tag" style="background:rgba(200,64,47,.15); border-color:rgba(200,64,47,.3); color:#e05a45">Tests unitaires</span>
+              <span class="comp-tag" style="background:rgba(200,64,47,.15); border-color:rgba(200,64,47,.3); color:#e05a45">CI/CD</span>
+            </div>
+          </div>
+          <div class="comp-group">
+            <h6>Soft skills</h6>
+            <div class="comp-tags">
+              <span class="comp-tag" style="background:rgba(45,106,79,.15); border-color:rgba(45,106,79,.3); color:#52b788">Intégration équipe</span>
+              <span class="comp-tag" style="background:rgba(45,106,79,.15); border-color:rgba(45,106,79,.3); color:#52b788">Communication pro</span>
+              <span class="comp-tag" style="background:rgba(45,106,79,.15); border-color:rgba(45,106,79,.3); color:#52b788">Autonomie</span>
+              <span class="comp-tag" style="background:rgba(45,106,79,.15); border-color:rgba(45,106,79,.3); color:#52b788">Rigueur</span>
+            </div>
+          </div>
+        </div>
+        <div class="stage-reflexion" style="margin-top: 16px;">
+          <p>Ce stage m'a confronté pour la première fois à un code de production à grande échelle. La difficulté principale a été de comprendre rapidement une architecture complexe sans documentation exhaustive. J'ai appris à poser les bonnes questions, à lire du code que je n'ai pas écrit, et à produire du code propre sous contrainte de temps. Si c'était à refaire, j'investirais davantage de temps en amont à cartographier l'architecture avant de coder.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        // Fermeture automatique si l'utilisateur clique en dehors de la fenêtre modale
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        }
-    </script>
+  <!-- SAÉ DÉPLOIEMENT -->
+  <div class="project-card">
+    <div class="project-header">
+      <div class="project-header-left">
+        <div class="project-number">SAÉ B · S2 — Déploiement d'une application</div>
+        <div class="project-title">Infrastructure de déploiement multi-VMs</div>
+        <div class="project-meta">Projet en binôme · 5 semaines · Semestres 2–3</div>
+      </div>
+      <div class="project-stack">
+        <span class="tag">Linux Debian</span>
+        <span class="tag">Bash</span>
+        <span class="tag">Docker</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">Traefik</span>
+        <span class="tag">SSH</span>
+        <span class="tag">Nginx</span>
+        <span class="tag">VirtualBox</span>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-section">
+        <h5>Contexte & objectifs</h5>
+        <p>L'objectif de cette SAÉ était de déployer une <strong>infrastructure complète de communication</strong> basée sur le protocole Matrix (serveur Synapse + client Element Web), en partant de zéro sur des machines virtuelles Debian. Le projet couvrait 5 semaines progressives : mise en place SSH, configuration réseau statique, installation PostgreSQL, déploiement de Synapse, mise en place d'un reverse proxy Nginx, puis migration vers une architecture multi-VMs segmentée.</p>
+        <h5 style="margin-top:20px;">Mon rôle & contributions</h5>
+        <p>J'ai contribué à la <strong>totalité des étapes</strong> : configuration SSH avec clés asymétriques, scripting Bash pour automatiser les installations, paramétrage PostgreSQL avec contrôle d'accès par IP, et mise en place d'un reverse proxy Traefik en conteneur Docker. J'ai également rédigé un <strong>script de déploiement automatisé</strong> (<code>deploy.sh</code>) permettant de déployer l'infrastructure complète ou d'ajouter un nouveau client Dolibarr avec une seule commande.</p>
+        <p>J'ai pris en charge la partie <strong>sécurisation</strong> : désactivation du login root SSH, configuration de sudo, contrôle des flux réseau entre les VMs.</p>
+      </div>
+      <div class="project-section">
+        <h5>Compétences mobilisées</h5>
+        <div class="competences">
+          <div class="comp-group">
+            <h6>Hard skills</h6>
+            <div class="comp-tags">
+              <span class="comp-tag">Administration Linux</span>
+              <span class="comp-tag">Scripting Bash avancé</span>
+              <span class="comp-tag">Réseau TCP/IP</span>
+              <span class="comp-tag">PostgreSQL</span>
+              <span class="comp-tag">Docker</span>
+              <span class="comp-tag">Reverse proxy</span>
+              <span class="comp-tag">Cryptographie SSH</span>
+            </div>
+          </div>
+          <div class="comp-group">
+            <h6>Soft skills</h6>
+            <div class="comp-tags">
+              <span class="comp-tag">Documentation rigoureuse</span>
+              <span class="comp-tag">Travail en binôme</span>
+              <span class="comp-tag">Résolution d'incidents</span>
+              <span class="comp-tag">Autonomie</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reflexion-box">
+      <h5>Analyse réflexive</h5>
+      <p>La principale difficulté a été la gestion des problèmes réseau entre VMs, notamment les règles de pare-feu et les permissions PostgreSQL. J'ai appris à <strong>diagnostiquer méthodiquement</strong> : logs, test de connectivité couche par couche, isolation du problème. Ce projet m'a également appris l'importance d'une documentation au fil de l'eau — refaire une installation sans notes aurait pris trois fois plus de temps. Aujourd'hui, je ferais davantage appel à Docker Compose pour simplifier l'orchestration multi-services.</p>
+    </div>
+    <a href="https://gitlab.univ-lille.fr" target="_blank" class="project-link">Voir le dépôt GitLab →</a>
+  </div>
+
+  <!-- SAÉ LABYRINTHE -->
+  <div class="project-card">
+    <div class="project-header">
+      <div class="project-header-left">
+        <div class="project-number">SAÉ 3.02 · S3 — Développement d'applications</div>
+        <div class="project-title">Jeu de Labyrinthes</div>
+        <div class="project-meta">Projet en équipe de 4 · 10 semaines · Semestre 3 · 2025–2026</div>
+      </div>
+      <div class="project-stack">
+        <span class="tag">Java</span>
+        <span class="tag">JavaFX</span>
+        <span class="tag">MVC</span>
+        <span class="tag">Algorithmique</span>
+        <span class="tag">Git / GitLab</span>
+        <span class="tag">Agile</span>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-section">
+        <h5>Contexte & objectifs</h5>
+        <p>Développement en équipe de 4 d'un <strong>jeu de labyrinthes complet en Java</strong> avec interface JavaFX. L'objectif pédagogique couvrait le développement efficace (R3.02), l'analyse UML (R3.03) et la qualité de code (R3.04). Le projet s'est déroulé sur 2 jalons : le premier couvrant les labyrinthes aléatoires avec modes libre et progression, le second ajoutant les labyrinthes parfaits et des fonctionnalités originales.</p>
+        <p>Les labyrinthes sont générés procéduralement avec contraintes : pourcentage de murs, distance minimale entrée-sortie garantie, et plusieurs étapes de difficulté progressive (vision restreinte, carte dynamique…).</p>
+        <h5 style="margin-top:20px;">Mon rôle & contributions</h5>
+        <p>J'ai pris en charge l'<strong>algorithme de génération des labyrinthes parfaits</strong> (basé sur la fusion d'ensembles / Kruskal) et la <strong>vérification du chemin entrée-sortie</strong> via BFS. J'ai également participé à la mise en place de l'architecture MVC stricte et à la coordination Git (gestion des branches, merge requests).</p>
+      </div>
+      <div class="project-section">
+        <h5>Compétences mobilisées</h5>
+        <div class="competences">
+          <div class="comp-group">
+            <h6>Hard skills</h6>
+            <div class="comp-tags">
+              <span class="comp-tag">Java avancé</span>
+              <span class="comp-tag">JavaFX / UI</span>
+              <span class="comp-tag">Algorithmes de graphes</span>
+              <span class="comp-tag">BFS / Kruskal</span>
+              <span class="comp-tag">Architecture MVC</span>
+              <span class="comp-tag">Tests unitaires JUnit</span>
+            </div>
+          </div>
+          <div class="comp-group">
+            <h6>Soft skills</h6>
+            <div class="comp-tags">
+              <span class="comp-tag">Travail en équipe Agile</span>
+              <span class="comp-tag">Revues de code</span>
+              <span class="comp-tag">Gestion des délais</span>
+              <span class="comp-tag">Communication</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reflexion-box">
+      <h5>Analyse réflexive</h5>
+      <p>Travailler en équipe de 4 sur une base de code partagée a été la plus grande source d'apprentissage — et de friction. Les conflits Git, les désaccords sur l'architecture, la répartition des tâches : tout cela m'a appris à <strong>communiquer précisément sur le code</strong>. J'aurais dû établir dès le début des conventions de nommage et une architecture clairement documentée. Ce que je retiens surtout : une bonne architecture prise tôt évite des heures de refactoring tard.</p>
+    </div>
+    <a href="https://gitlab.univ-lille.fr/sae302/2025/J2_SAE3.3" target="_blank" class="project-link">Voir le code sur GitLab →</a>
+  </div>
+
+  <!-- SAÉ FORGE -->
+  <div class="project-card">
+    <div class="project-header">
+      <div class="project-header-left">
+        <div class="project-number">SAÉ · S1–S2 — Infrastructure Forge</div>
+        <div class="project-title">Forge logicielle Gitea sous Debian 12</div>
+        <div class="project-meta">Projet individuel · Semestres 1–2</div>
+      </div>
+      <div class="project-stack">
+        <span class="tag">Linux Debian</span>
+        <span class="tag">Gitea</span>
+        <span class="tag">Bash</span>
+        <span class="tag">Cron</span>
+        <span class="tag">SSH</span>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-section">
+        <h5>Contexte & objectifs</h5>
+        <p>Installation, sécurisation et maintenance d'une <strong>forge logicielle Gitea</strong> auto-hébergée sur une VM Debian 12. L'objectif était de mettre en place un environnement de développement collaboratif fonctionnel : dépôts Git, gestion des utilisateurs, webhooks, et sauvegardes automatisées.</p>
+        <h5 style="margin-top:20px;">Mon rôle & contributions</h5>
+        <p>Installation from scratch de Gitea, configuration du reverse proxy Nginx, mise en place de <strong>scripts Bash d'automatisation des sauvegardes</strong> via cron, et durcissement de la configuration SSH (désactivation de l'accès root, authentification par clés uniquement).</p>
+      </div>
+      <div class="project-section">
+        <h5>Compétences mobilisées</h5>
+        <div class="competences">
+          <div class="comp-group">
+            <h6>Hard skills</h6>
+            <div class="comp-tags">
+              <span class="comp-tag">Administration système</span>
+              <span class="comp-tag">Bash / Cron</span>
+              <span class="comp-tag">Nginx config</span>
+              <span class="comp-tag">Sécurité SSH</span>
+              <span class="comp-tag">Gestion services systemd</span>
+            </div>
+          </div>
+          <div class="comp-group">
+            <h6>Soft skills</h6>
+            <div class="comp-tags">
+              <span class="comp-tag">Autonomie</span>
+              <span class="comp-tag">Démarche documentaire</span>
+              <span class="comp-tag">Rigueur</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reflexion-box">
+      <h5>Analyse réflexive</h5>
+      <p>Ce projet m'a initié à l'administration système réelle. La difficulté principale a été la gestion des permissions et des droits sous Linux — une erreur de chmod peut tout casser silencieusement. J'ai appris à <strong>tester de manière systématique</strong> après chaque modification. Avec le recul, j'aurais utilisé Docker dès le départ pour isoler le service et simplifier les mises à jour.</p>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div class="project-card">
+    <div class="project-header">
+      <div class="project-header-left">
+        <div class="project-number">Projet personnel — Web</div>
+        <div class="project-title">Portfolio numérique</div>
+        <div class="project-meta">Projet personnel · 2025–2026 · GitHub Pages</div>
+      </div>
+      <div class="project-stack">
+        <span class="tag">HTML/CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">GitHub Pages</span>
+        <span class="tag">Design</span>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-section">
+        <h5>Contexte & objectifs</h5>
+        <p>Conception et développement de ce site portfolio en HTML/CSS/JS vanilla, sans framework, hébergé sur GitHub Pages. L'objectif était double : avoir un support de présentation professionnelle et approfondir mes compétences front-end (accessibilité, responsive, thème sombre/clair, animations CSS).</p>
+      </div>
+      <div class="project-section">
+        <h5>Compétences mobilisées</h5>
+        <div class="competences">
+          <div class="comp-group">
+            <h6>Hard skills</h6>
+            <div class="comp-tags">
+              <span class="comp-tag">HTML sémantique</span>
+              <span class="comp-tag">CSS Grid / Flexbox</span>
+              <span class="comp-tag">Animations CSS</span>
+              <span class="comp-tag">JS vanilla</span>
+              <span class="comp-tag">Design responsive</span>
+            </div>
+          </div>
+          <div class="comp-group">
+            <h6>Soft skills</h6>
+            <div class="comp-tags">
+              <span class="comp-tag">Créativité</span>
+              <span class="comp-tag">Sens esthétique</span>
+              <span class="comp-tag">Autonomie</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reflexion-box">
+      <h5>Analyse réflexive</h5>
+      <p>Ce projet m'a montré qu'un bon design n'est pas seulement esthétique — il raconte quelque chose. J'ai passé plus de temps sur la structure du contenu que sur le CSS. La prochaine version sera construite avec un framework (React ou Astro) pour une meilleure maintenabilité.</p>
+    </div>
+    <a href="https://github.com/alexdupuislepez/portfolio" target="_blank" class="project-link">Voir le dépôt GitHub →</a>
+  </div>
+</section>
+
+<!-- ─── PARCOURS ─── -->
+<section id="parcours">
+  <div class="section-label">04 · Parcours</div>
+  <h2 class="section-title">Évolution S1 → S4</h2>
+  <p class="section-intro">De la découverte des algorithmes au déploiement d'infrastructures en production.</p>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">Avr–Juin 2026 · S4</div>
+      <div class="timeline-title">Stage Développeur Full-Stack — Adeo</div>
+      <div class="timeline-sub">Lezennes · React, Node.js, TypeScript · Environnement Agile en entreprise</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2025–2026 · S3</div>
+      <div class="timeline-title">SAÉ 3.02 — Jeu de Labyrinthes</div>
+      <div class="timeline-sub">Java / JavaFX · Équipe de 4 · Algorithmes de graphes · Architecture MVC</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2024–2025 · S2</div>
+      <div class="timeline-title">SAÉ B — Déploiement d'une application</div>
+      <div class="timeline-sub">Linux · Docker · PostgreSQL · Traefik · Script d'automatisation Bash</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2024–2025 · S1–S2</div>
+      <div class="timeline-title">SAÉ Forge logicielle</div>
+      <div class="timeline-sub">Gitea · Debian · Nginx · Administration système · Sauvegardes automatisées</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Sept 2024 · Début</div>
+      <div class="timeline-title">Entrée en BUT Informatique — Université de Lille</div>
+      <div class="timeline-sub">Parcours DACS · Déploiement d'Applications Communicantes et Sécurisées</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER / CONTACT ─── -->
+<footer id="contact">
+  <h2>Travaillons ensemble.</h2>
+  <p>Recherche alternance ou poursuite d'études · Spécialisation Dev & Ops</p>
+  <div class="social-row">
+    <a href="mailto:alexdupuislepez@gmail.com" class="social-btn">✉ Email</a>
+    <a href="https://www.linkedin.com/in/alex-dupuis-lepez-082394346" target="_blank" class="social-btn">in LinkedIn</a>
+    <a href="https://gitlab.univ-lille.fr/alex.dupuis-lepez.etu" target="_blank" class="social-btn">⌥ GitLab Univ</a>
+    <a href="https://github.com" target="_blank" class="social-btn">⌥ GitHub</a>
+  </div>
+  <div class="footer-copy">© 2026 Alex Dupuis-Lepez · Portfolio BUT Informatique · Université de Lille</div>
+</footer>
+
+<script>
+const btn = document.getElementById('theme-btn');
+let dark = false;
+const saved = localStorage.getItem('theme');
+if (saved === 'dark') { dark = true; document.body.setAttribute('data-theme','dark'); btn.textContent = '☀ Clair'; }
+
+function toggleTheme() {
+  dark = !dark;
+  if (dark) {
+    document.body.setAttribute('data-theme','dark');
+    localStorage.setItem('theme','dark');
+    btn.textContent = '☀ Clair';
+  } else {
+    document.body.removeAttribute('data-theme');
+    localStorage.setItem('theme','light');
+    btn.textContent = '☾ Sombre';
+  }
+}
+</script>
 </body>
 </html>
