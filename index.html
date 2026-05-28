@@ -3,886 +3,352 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alex Dupuis-Lepez — Dev & Ops</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<title>Alex Dupuis-Lepez — Infra & Réseau</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #0d0d0d;
-  --paper: #f5f0e8;
-  --accent: #c8402f;
-  --accent2: #2d6a4f;
-  --muted: #7a7267;
-  --card-bg: #fffdf8;
-  --border: #e0d9cc;
-  --tag-bg: #eae4d8;
+  --ink: #0d0d0d; --paper: #f5f0e8; --accent: #c8402f;
+  --muted: #7a7267; --card: #fffdf8; --border: #e0d9cc; --tag: #eae4d8;
 }
 [data-theme="dark"] {
-  --ink: #f0ebe0;
-  --paper: #111009;
-  --accent: #e05a45;
-  --accent2: #52b788;
-  --muted: #8a8375;
-  --card-bg: #1a1810;
-  --border: #2e2b22;
-  --tag-bg: #222018;
+  --ink: #f0ebe0; --paper: #111009; --accent: #e05a45;
+  --muted: #8a8375; --card: #1a1810; --border: #2e2b22; --tag: #222018;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;transition:background .3s,color .3s;overflow-x:hidden}
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--paper);
-  color: var(--ink);
-  line-height: 1.65;
-  transition: background .3s, color .3s;
-  overflow-x: hidden;
-}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 6%;height:58px;background:var(--paper);border-bottom:1px solid var(--border)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em}
+.logo span{color:var(--accent)}
+.nav-r{display:flex;gap:1.5rem;align-items:center}
+.nav-r a{font-size:.8rem;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:.05em;text-transform:uppercase;transition:color .2s}
+.nav-r a:hover{color:var(--ink)}
+.tbtn{background:none;border:1px solid var(--border);border-radius:20px;padding:4px 12px;cursor:pointer;font-size:.75rem;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .2s}
+.tbtn:hover{border-color:var(--ink);color:var(--ink)}
 
-/* ─── NOISE TEXTURE OVERLAY ─── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-  opacity: .4;
-}
+/* HERO */
+.hero{min-height:calc(100vh - 58px);display:flex;flex-direction:column;justify-content:center;padding:60px 6%;max-width:800px}
+.eyebrow{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--accent)}
+h1{font-family:'Syne',sans-serif;font-size:clamp(3.2rem,7vw,6rem);font-weight:800;line-height:1;letter-spacing:-.04em;margin-bottom:16px}
+h1 span{color:var(--accent)}
+.hero-sub{font-size:1.05rem;color:var(--muted);font-weight:300;max-width:480px;margin-bottom:32px;font-style:italic}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:36px}
+.tag{background:var(--tag);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-size:.75rem;font-weight:500}
+.tag.a{background:var(--accent);border-color:var(--accent);color:#fff}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:11px 26px;border-radius:3px;font-size:.82rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;transition:all .2s}
+.btn-p{background:var(--ink);color:var(--paper)}
+.btn-p:hover{background:var(--accent)}
+.btn-o{border:1px solid var(--border);color:var(--muted)}
+.btn-o:hover{border-color:var(--ink);color:var(--ink)}
 
-/* ─── NAV ─── */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 5%;
-  height: 60px;
-  background: var(--paper);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(8px);
-}
-.nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: -.02em; }
-.nav-logo span { color: var(--accent); }
-.nav-links { display: flex; gap: 2rem; align-items: center; }
-.nav-links a { font-size: .85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; letter-spacing: .04em; text-transform: uppercase; }
-.nav-links a:hover { color: var(--ink); }
-.theme-btn { background: none; border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; cursor: pointer; font-size: .8rem; color: var(--muted); font-family: 'DM Sans', sans-serif; transition: all .2s; }
-.theme-btn:hover { border-color: var(--ink); color: var(--ink); }
+/* SECTIONS */
+section{padding:80px 6%}
+section:nth-child(even){background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.slabel{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:36px;display:flex;align-items:center;gap:10px}
+.slabel::after{content:'';flex:1;height:1px;background:var(--border)}
+h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,3.5vw,2.6rem);letter-spacing:-.03em;line-height:1.05;margin-bottom:48px}
 
-/* ─── HERO ─── */
-.hero {
-  min-height: calc(100vh - 60px);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 0 5%;
-  position: relative;
-  overflow: hidden;
-}
-.hero-left {
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 80px 0;
-  position: relative; z-index: 2;
-}
-.hero-eyebrow {
-  font-size: .75rem; letter-spacing: .15em; text-transform: uppercase;
-  color: var(--accent); font-weight: 500; margin-bottom: 24px;
-  display: flex; align-items: center; gap: 10px;
-}
-.hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
-.hero h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(3rem, 6vw, 5.5rem);
-  font-weight: 800;
-  line-height: 1.0;
-  letter-spacing: -.03em;
-  margin-bottom: 8px;
-}
-.hero h1 .name-accent { color: var(--accent); }
-.hero-sub {
-  font-size: 1.1rem; color: var(--muted); font-weight: 300;
-  margin-bottom: 40px; max-width: 420px; font-style: italic;
-}
-.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 48px; }
-.tag {
-  background: var(--tag-bg); border: 1px solid var(--border);
-  padding: 6px 14px; border-radius: 4px;
-  font-size: .78rem; font-weight: 500; color: var(--ink);
-  letter-spacing: .03em;
-}
-.tag.accent { background: var(--accent); border-color: var(--accent); color: white; }
-.tag.green { background: var(--accent2); border-color: var(--accent2); color: white; }
-.cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn-primary {
-  background: var(--ink); color: var(--paper);
-  padding: 12px 28px; border-radius: 4px; text-decoration: none;
-  font-size: .85rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase;
-  transition: all .2s;
-}
-.btn-primary:hover { background: var(--accent); }
-.btn-outline {
-  border: 1px solid var(--border); color: var(--muted);
-  padding: 12px 28px; border-radius: 4px; text-decoration: none;
-  font-size: .85rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase;
-  transition: all .2s;
-}
-.btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:48px}
+.about-block p{color:var(--muted);font-weight:300;font-size:.95rem;line-height:1.8;margin-bottom:12px}
+.about-block p strong{color:var(--ink);font-weight:500}
+.info-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.info-list li{font-size:.85rem;color:var(--muted);display:flex;gap:10px}
+.info-list li strong{color:var(--ink);font-weight:500;min-width:90px}
+.softags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
 
-.hero-right {
-  display: flex; align-items: center; justify-content: center;
-  position: relative;
-}
-.hero-visual {
-  width: 320px; height: 400px;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  display: flex; flex-direction: column;
-  overflow: hidden;
-  box-shadow: 8px 8px 0 var(--border);
-  position: relative;
-}
-.hero-visual-header {
-  background: var(--tag-bg); border-bottom: 1px solid var(--border);
-  padding: 10px 16px; display: flex; align-items: center; gap: 6px;
-}
-.dot { width: 10px; height: 10px; border-radius: 50%; }
-.dot-r { background: #ff5f57; }
-.dot-y { background: #febc2e; }
-.dot-g { background: #28c840; }
-.hero-code {
-  padding: 20px; font-family: monospace; font-size: .8rem;
-  line-height: 1.8; color: var(--muted); flex: 1;
-}
-.code-line { display: block; }
-.c-key { color: var(--accent); }
-.c-str { color: var(--accent2); }
-.c-num { color: #d4881a; }
-.c-comment { color: var(--muted); font-style: italic; }
-.hero-bg-text {
-  position: absolute; right: -20px; top: 50%;
-  transform: translateY(-50%) rotate(90deg);
-  font-family: 'Syne', sans-serif; font-size: 12rem; font-weight: 800;
-  color: var(--border); letter-spacing: -.05em; white-space: nowrap;
-  pointer-events: none; z-index: 1; line-height: 1;
-  opacity: .5;
-}
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sc{background:var(--card);border:1px solid var(--border);padding:22px;border-radius:5px;transition:border-color .2s}
+.sc:hover{border-color:var(--accent)}
+.sc h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:.03em;margin-bottom:14px}
+.pills{display:flex;flex-wrap:wrap;gap:5px}
+.pill{background:var(--tag);border:1px solid var(--border);padding:3px 9px;border-radius:2px;font-size:.72rem;font-weight:500}
 
-/* ─── SECTIONS ─── */
-section { padding: 100px 5%; }
-.section-label {
-  display: flex; align-items: center; gap: 12px;
-  font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--accent); font-weight: 500; margin-bottom: 48px;
-}
-.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.section-title {
-  font-family: 'Syne', sans-serif; font-weight: 800;
-  font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.03em;
-  line-height: 1.05; margin-bottom: 16px;
-}
-.section-intro { color: var(--muted); font-size: 1.05rem; max-width: 580px; font-weight: 300; margin-bottom: 64px; }
+/* PROJECTS */
+.pc{background:var(--card);border:1px solid var(--border);border-radius:6px;margin-bottom:24px;transition:border-color .2s}
+.pc:hover{border-color:var(--accent)}
+.pc-head{padding:24px 28px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.pc-num{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:4px}
+.pc-title{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.pc-meta{font-size:.78rem;color:var(--muted)}
+.pc-stack{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end;max-width:220px}
+.pc-body{padding:22px 28px;display:grid;grid-template-columns:1.2fr 1fr;gap:28px}
+.ps h5{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.ps p{font-size:.85rem;color:var(--muted);font-weight:300;line-height:1.75}
+.ps p strong{color:var(--ink);font-weight:500}
+.ps p+p{margin-top:8px}
+.ctags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.ctag{background:var(--tag);border:1px solid var(--border);padding:2px 8px;border-radius:2px;font-size:.7rem;font-weight:500}
+.rbox{margin:0 28px 22px;background:var(--tag);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 4px 4px 0}
+.rbox p{font-size:.82rem;color:var(--muted);font-style:italic;font-weight:300;line-height:1.7}
+.plink{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);text-decoration:none;padding:0 28px 18px;transition:gap .2s}
+.plink:hover{gap:10px}
 
-/* ─── ABOUT ─── */
-#about { background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
-.about-block h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; }
-.about-block p { color: var(--muted); line-height: 1.8; margin-bottom: 16px; font-weight: 300; }
-.info-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.info-list li { display: flex; align-items: flex-start; gap: 12px; font-size: .9rem; color: var(--muted); }
-.info-list li strong { color: var(--ink); min-width: 100px; font-weight: 500; }
-.soft-skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+/* STAGE */
+.stage{background:var(--ink);color:var(--paper);border-radius:6px;padding:36px;margin-bottom:24px;position:relative;overflow:hidden}
+.stage::before{content:'ADEO';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Syne',sans-serif;font-size:9rem;font-weight:800;color:rgba(255,255,255,.04);letter-spacing:-.04em;pointer-events:none}
+[data-theme="dark"] .stage{background:var(--card);border:1px solid var(--border)}
+.stage .pc-num{color:var(--accent)}
+.stage .pc-title{color:var(--paper)}
+[data-theme="dark"] .stage .pc-title{color:var(--ink)}
+.stage .pc-meta{color:rgba(240,235,224,.5)}
+[data-theme="dark"] .stage .pc-meta{color:var(--muted)}
+.stage-body{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;margin-top:24px}
+.ss h5{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,235,224,.4);font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.08)}
+[data-theme="dark"] .ss h5{color:var(--muted);border-bottom-color:var(--border)}
+.ss p{font-size:.85rem;color:rgba(240,235,224,.7);font-weight:300;line-height:1.75}
+[data-theme="dark"] .ss p{color:var(--muted)}
+.ss p strong{color:var(--paper);font-weight:500}
+[data-theme="dark"] .ss p strong{color:var(--ink)}
+.srbox{background:rgba(255,255,255,.05);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 4px 4px 0;margin-top:16px}
+[data-theme="dark"] .srbox{background:var(--tag);border-left-color:var(--accent)}
+.srbox p{font-size:.82rem;color:rgba(240,235,224,.6);font-style:italic;font-weight:300;line-height:1.7;margin:0}
+[data-theme="dark"] .srbox p{color:var(--muted)}
 
-/* ─── SKILLS ─── */
-.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.skill-card {
-  background: var(--card-bg); border: 1px solid var(--border);
-  padding: 28px; border-radius: 6px;
-  transition: border-color .2s, transform .2s;
-}
-.skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-.skill-card-icon { font-size: 1.4rem; margin-bottom: 12px; }
-.skill-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; margin-bottom: 16px; letter-spacing: .02em; }
-.skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
-.skill-pill { background: var(--tag-bg); border: 1px solid var(--border); padding: 4px 10px; border-radius: 3px; font-size: .75rem; font-weight: 500; color: var(--ink); }
+/* TIMELINE */
+.tl{padding-left:28px;position:relative}
+.tl::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:1px;background:var(--border)}
+.ti{position:relative;margin-bottom:28px}
+.ti::before{content:'';position:absolute;left:-26px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--paper);border:2px solid var(--accent)}
+.ti-date{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:2px}
+.ti-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:2px}
+.ti-sub{font-size:.82rem;color:var(--muted)}
 
-/* ─── PROJECTS ─── */
-.project-card {
-  background: var(--card-bg); border: 1px solid var(--border);
-  border-radius: 8px; overflow: hidden; margin-bottom: 40px;
-  transition: border-color .2s;
-}
-.project-card:hover { border-color: var(--accent); }
-.project-header {
-  padding: 32px 36px 24px;
-  border-bottom: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;
-  flex-wrap: wrap;
-}
-.project-header-left { flex: 1; min-width: 260px; }
-.project-number { font-family: 'Syne', sans-serif; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
-.project-title { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: -.02em; margin-bottom: 8px; }
-.project-meta { font-size: .82rem; color: var(--muted); }
-.project-stack { display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start; justify-content: flex-end; max-width: 260px; }
+/* FOOTER */
+footer{background:var(--ink);color:var(--paper);padding:64px 6%;text-align:center}
+[data-theme="dark"] footer{background:var(--card);border-top:1px solid var(--border)}
+footer h2{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+footer p{color:rgba(240,235,224,.55);margin-bottom:32px;font-weight:300;font-size:.95rem}
+[data-theme="dark"] footer p{color:var(--muted)}
+.socials{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:40px}
+.sbtn{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.2);color:rgba(240,235,224,.75);padding:9px 18px;border-radius:3px;text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:all .2s}
+[data-theme="dark"] .sbtn{border-color:var(--border);color:var(--muted)}
+.sbtn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.copy{font-size:.72rem;opacity:.3}
 
-.project-body { padding: 32px 36px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 36px; }
-.project-section h5 {
-  font-family: 'Syne', sans-serif; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--muted); font-weight: 700; margin-bottom: 12px;
-  padding-bottom: 8px; border-bottom: 1px solid var(--border);
-}
-.project-section p { font-size: .9rem; color: var(--muted); font-weight: 300; line-height: 1.75; margin-bottom: 16px; }
-.project-section p:last-child { margin-bottom: 0; }
-.project-section strong { color: var(--ink); font-weight: 500; }
-
-.competences { display: flex; flex-direction: column; gap: 16px; }
-.comp-group h6 { font-size: .75rem; color: var(--accent2); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
-.comp-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-.comp-tag { background: var(--tag-bg); border: 1px solid var(--border); padding: 3px 9px; border-radius: 2px; font-size: .72rem; font-weight: 500; color: var(--ink); }
-
-.reflexion-box {
-  margin: 0 36px 32px;
-  background: var(--tag-bg); border: 1px solid var(--border);
-  border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0;
-  padding: 20px 24px;
-}
-.reflexion-box h5 { font-family: 'Syne', sans-serif; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
-.reflexion-box p { font-size: .88rem; color: var(--muted); font-style: italic; font-weight: 300; line-height: 1.75; }
-
-.project-link {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: .8rem; font-weight: 500; letter-spacing: .04em; text-transform: uppercase;
-  color: var(--accent); text-decoration: none;
-  padding: 0 36px 28px;
-  transition: gap .2s;
-}
-.project-link:hover { gap: 10px; }
-
-/* ─── STAGE BANNER ─── */
-.stage-banner {
-  background: var(--ink); color: var(--paper);
-  border-radius: 8px; padding: 48px;
-  margin-bottom: 40px;
-  position: relative; overflow: hidden;
-}
-.stage-banner::before {
-  content: 'ADEO';
-  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
-  font-family: 'Syne', sans-serif; font-size: 10rem; font-weight: 800;
-  color: rgba(255,255,255,.05); letter-spacing: -.04em; line-height: 1;
-  pointer-events: none;
-}
-[data-theme="dark"] .stage-banner { background: var(--card-bg); border: 1px solid var(--border); }
-.stage-banner .project-number { color: var(--accent); }
-.stage-banner .project-title { color: var(--paper); }
-[data-theme="dark"] .stage-banner .project-title { color: var(--ink); }
-.stage-banner .project-meta { color: rgba(240,235,224,.6); }
-[data-theme="dark"] .stage-banner .project-meta { color: var(--muted); }
-.stage-inner { display: grid; grid-template-columns: 1.2fr 1fr; gap: 36px; margin-top: 28px; }
-.stage-section h5 { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(240,235,224,.45); font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,.1); }
-[data-theme="dark"] .stage-section h5 { color: var(--muted); border-bottom-color: var(--border); }
-.stage-section p { font-size: .9rem; color: rgba(240,235,224,.75); font-weight: 300; line-height: 1.75; margin-bottom: 16px; }
-[data-theme="dark"] .stage-section p { color: var(--muted); }
-.stage-section strong { color: var(--paper); font-weight: 500; }
-[data-theme="dark"] .stage-section strong { color: var(--ink); }
-.stage-reflexion {
-  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 6px 6px 0; padding: 18px 22px; margin-top: 24px;
-}
-[data-theme="dark"] .stage-reflexion { background: var(--tag-bg); border-color: var(--border); border-left-color: var(--accent); }
-.stage-reflexion p { font-size: .88rem; color: rgba(240,235,224,.65); font-style: italic; font-weight: 300; line-height: 1.75; margin: 0; }
-[data-theme="dark"] .stage-reflexion p { color: var(--muted); }
-
-/* ─── PARCOURS / TIMELINE ─── */
-#parcours { background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.timeline { position: relative; padding-left: 32px; }
-.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 1px; background: var(--border); }
-.timeline-item { position: relative; margin-bottom: 40px; }
-.timeline-item::before {
-  content: ''; position: absolute; left: -28px; top: 6px;
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--paper); border: 2px solid var(--accent);
-}
-.timeline-date { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
-.timeline-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
-.timeline-sub { font-size: .85rem; color: var(--muted); }
-
-/* ─── FOOTER / CONTACT ─── */
-footer {
-  background: var(--ink); color: var(--paper);
-  padding: 80px 5%; text-align: center;
-}
-[data-theme="dark"] footer { background: var(--card-bg); border-top: 1px solid var(--border); }
-footer h2 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 4rem); font-weight: 800; letter-spacing: -.03em; margin-bottom: 12px; }
-footer p { color: rgba(240,235,224,.6); margin-bottom: 40px; font-weight: 300; }
-[data-theme="dark"] footer p { color: var(--muted); }
-.social-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
-.social-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  border: 1px solid rgba(255,255,255,.2); color: rgba(240,235,224,.8);
-  padding: 10px 20px; border-radius: 4px; text-decoration: none;
-  font-size: .82rem; font-weight: 500; letter-spacing: .04em; text-transform: uppercase;
-  transition: all .2s;
-}
-[data-theme="dark"] .social-btn { border-color: var(--border); color: var(--muted); }
-.social-btn:hover { background: var(--accent); border-color: var(--accent); color: white; }
-.footer-copy { font-size: .75rem; opacity: .3; }
-
-/* ─── ANIMATIONS ─── */
-@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.hero-left > * { animation: fadeUp .6s ease both; }
-.hero-eyebrow { animation-delay: .1s; }
-.hero h1 { animation-delay: .2s; }
-.hero-sub { animation-delay: .3s; }
-.hero-tags { animation-delay: .4s; }
-.cta-row { animation-delay: .5s; }
-.hero-right { animation: fadeUp .7s .4s ease both; }
-
-/* ─── RESPONSIVE ─── */
-@media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; }
-  .hero-right { display: none; }
-  .about-grid, .skills-grid { grid-template-columns: 1fr; }
-  .project-body, .stage-inner { grid-template-columns: 1fr; }
-  .project-header { flex-direction: column; }
-  .project-stack { justify-content: flex-start; }
-  .hero-bg-text { display: none; }
-  nav { padding: 0 4%; }
-  .nav-links a { display: none; }
-}
-@media (max-width: 600px) {
-  section { padding: 70px 4%; }
-  .project-header, .project-body, .reflexion-box, .project-link { padding-left: 20px; padding-right: 20px; }
-  .stage-banner { padding: 28px; }
+@media(max-width:800px){
+  .about-grid,.skills-grid,.pc-body,.stage-body{grid-template-columns:1fr}
+  .pc-head{flex-direction:column}
+  .pc-stack{justify-content:flex-start}
+  .nav-r a{display:none}
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-logo">&lt;<span>Alex</span> /&gt;</div>
-  <div class="nav-links">
+  <div class="logo">&lt;<span>Alex</span> /&gt;</div>
+  <div class="nav-r">
     <a href="#about">Profil</a>
-    <a href="#skills">Compétences</a>
     <a href="#projects">Projets</a>
-    <a href="#parcours">Parcours</a>
     <a href="#contact">Contact</a>
-    <button class="theme-btn" onclick="toggleTheme()" id="theme-btn">☾ Sombre</button>
+    <button class="tbtn" onclick="toggleTheme()" id="tbtn">☾ Sombre</button>
   </div>
 </nav>
 
-<!-- ─── HERO ─── -->
 <section class="hero">
-  <div class="hero-bg-text">DEV OPS</div>
-  <div class="hero-left">
-    <div class="hero-eyebrow">BUT Informatique · Université de Lille · 2ème année</div>
-    <h1>Alex<br><span class="name-accent">Dupuis-</span><br>Lepez</h1>
-    <p class="hero-sub">Je conçois des architectures robustes, du commit jusqu'au serveur de production.</p>
-    <div class="hero-tags">
-      <span class="tag accent">Dev Full-Stack</span>
-      <span class="tag green">Ops & Infra</span>
-      <span class="tag">Linux · Bash</span>
-      <span class="tag">Docker · Git</span>
-      <span class="tag">Stage Adeo 2026</span>
-    </div>
-    <div class="cta-row">
-      <a href="#projects" class="btn-primary">Voir mes projets</a>
-      <a href="mailto:alexdupuislepez@gmail.com" class="btn-outline">Me contacter</a>
-    </div>
+  <div class="eyebrow">BUT Informatique DACS · Université de Lille · 2ème année</div>
+  <h1>Alex<br><span>Dupuis-</span><br>Lepez</h1>
+  <p class="hero-sub">Passionné par l'infrastructure réseau et la sécurité. Je déploie, configure et sécurise les systèmes qui font tourner les applications.</p>
+  <div class="tags">
+    <span class="tag a">Infra & Réseau</span>
+    <span class="tag">Linux · Bash</span>
+    <span class="tag">Docker · Traefik</span>
+    <span class="tag">PostgreSQL · SSH</span>
+    <span class="tag">Stage Adeo 2026</span>
   </div>
-  <div class="hero-right">
-    <div class="hero-visual">
-      <div class="hero-visual-header">
-        <div class="dot dot-r"></div>
-        <div class="dot dot-y"></div>
-        <div class="dot dot-g"></div>
-      </div>
-      <div class="hero-code">
-        <span class="code-line c-comment">// alex.dupuis-lepez.profile</span>
-        <span class="code-line">&nbsp;</span>
-        <span class="code-line"><span class="c-key">const</span> alex = {</span>
-        <span class="code-line">&nbsp;&nbsp;role: <span class="c-str">"Dev &amp; Ops"</span>,</span>
-        <span class="code-line">&nbsp;&nbsp;year: <span class="c-num">2</span>,</span>
-        <span class="code-line">&nbsp;&nbsp;location: <span class="c-str">"Lille, FR"</span>,</span>
-        <span class="code-line">&nbsp;&nbsp;stack: [</span>
-        <span class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"Java"</span>, <span class="c-str">"Linux"</span>,</span>
-        <span class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"Docker"</span>, <span class="c-str">"Bash"</span>,</span>
-        <span class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"PostgreSQL"</span></span>
-        <span class="code-line">&nbsp;&nbsp;],</span>
-        <span class="code-line">&nbsp;&nbsp;seeking: <span class="c-str">"Alternance 2026"</span>,</span>
-        <span class="code-line">};</span>
-        <span class="code-line">&nbsp;</span>
-        <span class="code-line c-comment">// Dernier poste :</span>
-        <span class="code-line"><span class="c-key">export</span> { <span class="c-str">Adeo</span> <span class="c-comment">// Stage S4</span> }</span>
-      </div>
-    </div>
+  <div class="ctas">
+    <a href="#projects" class="btn btn-p">Voir mes projets</a>
+    <a href="mailto:alexdupuislepez@gmail.com" class="btn btn-o">Me contacter</a>
   </div>
 </section>
 
-<!-- ─── ABOUT ─── -->
+<!-- ABOUT -->
 <section id="about">
-  <div class="section-label">01 · Présentation</div>
-  <h2 class="section-title">Mon profil</h2>
+  <div class="slabel">01 · Profil</div>
+  <h2>Qui suis-je ?</h2>
   <div class="about-grid">
     <div class="about-block">
-      <h3>À propos</h3>
-      <p>Je suis étudiant en 2ème année de <strong>BUT Informatique parcours Déploiement d'Applications Communicantes et Sécurisées (DACS)</strong> à l'Université de Lille. Mon parcours m'a amené à travailler aussi bien sur le code (développement Java, web) que sur l'infrastructure (Linux, Docker, réseaux).</p>
-      <p>Ce qui me passionne, c'est le pont entre le Dev et les Ops : comprendre comment une application naît dans un IDE et comment elle vit — et survit — en production. Ce fil directeur guide tous mes projets, de la SAÉ Déploiement au stage chez Adeo.</p>
-      <p>Après la licence, j'envisage une poursuite en master ou école d'ingénieur avec une spécialisation DevOps / Cloud, ou une intégration directe en entreprise via alternance.</p>
+      <p>Étudiant en <strong>BUT Informatique parcours DACS</strong> (Déploiement d'Applications Communicantes et Sécurisées) à l'Université de Lille. Mon parcours est centré sur l'administration système, les réseaux et la sécurité des infrastructures.</p>
+      <p>Mon objectif : travailler dans <strong>l'infrastructure réseau</strong> — concevoir et sécuriser les architectures qui font tourner les applications. Mon stage chez Adeo m'a donné en plus une vision applicatif, rare pour un profil infra.</p>
       <ul class="info-list">
-        <li><strong>Localisation</strong> Lille, France</li>
         <li><strong>Formation</strong> BUT Informatique DACS, Univ. Lille</li>
+        <li><strong>Localisation</strong> Lille, France</li>
         <li><strong>Anglais</strong> B1 — Technique</li>
-        <li><strong>Permis</strong> Permis B</li>
+        <li><strong>Objectif</strong> Alternance Infra / Réseau / Sécu</li>
       </ul>
     </div>
     <div class="about-block">
-      <h3>Soft skills & posture</h3>
-      <p>Je crois qu'un bon technicien est d'abord quelqu'un qui sait communiquer, prendre du recul et apprendre de ses erreurs. Ces qualités se sont affûtées projet après projet :</p>
-      <div class="soft-skills">
-        <span class="tag">💡 Curiosité technique</span>
-        <span class="tag">🤝 Travail en équipe</span>
-        <span class="tag">🔍 Rigueur & documentation</span>
-        <span class="tag">⚡ Adaptabilité</span>
-        <span class="tag">🗓️ Organisation Agile</span>
-        <span class="tag">🐛 Résolution de problèmes</span>
-        <span class="tag">📝 Communication écrite</span>
-        <span class="tag">🚀 Autonomie</span>
+      <p>Compétences techniques consolidées au fil des SAÉ :</p>
+      <div class="pills" style="margin-bottom:20px">
+        <span class="pill">Linux Debian</span><span class="pill">Bash scripting</span><span class="pill">Docker</span><span class="pill">Traefik</span><span class="pill">Nginx</span><span class="pill">PostgreSQL</span><span class="pill">SSH / Crypto</span><span class="pill">TCP/IP · DNS · NAT</span><span class="pill">VMs · VirtualBox</span><span class="pill">Git / GitLab</span><span class="pill">Java · JavaFX</span><span class="pill">HTML/CSS/JS</span>
       </div>
-      <p style="margin-top: 20px;">Ces compétences ne sont pas abstraites : elles ont été sollicitées concrètement — lors de la refonte de l'architecture de déploiement en SAÉ, lors des revues de code en équipe sur le projet Labyrinthe, ou face aux incidents de production chez Adeo.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ─── SKILLS ─── -->
-<section id="skills">
-  <div class="section-label">02 · Compétences</div>
-  <h2 class="section-title">Stack technique</h2>
-  <p class="section-intro">Compétences construites au fil des SAÉ, cours et expériences professionnelles, du S1 au S4.</p>
-  <div class="skills-grid">
-    <div class="skill-card">
-      <div class="skill-card-icon">☕</div>
-      <h4>Développement</h4>
-      <div class="skill-pills">
-        <span class="skill-pill">Java</span>
-        <span class="skill-pill">JavaFX</span>
-        <span class="skill-pill">Python</span>
-        <span class="skill-pill">HTML/CSS/JS</span>
-        <span class="skill-pill">SQL</span>
-        <span class="skill-pill">PostgreSQL</span>
-        <span class="skill-pill">MVC</span>
-        <span class="skill-pill">POO</span>
-        <span class="skill-pill">Algorithmique</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-card-icon">🐧</div>
-      <h4>Ops & Système</h4>
-      <div class="skill-pills">
-        <span class="skill-pill">Linux (Debian)</span>
-        <span class="skill-pill">Bash scripting</span>
-        <span class="skill-pill">Docker</span>
-        <span class="skill-pill">Git / Gitea</span>
-        <span class="skill-pill">GitHub</span>
-        <span class="skill-pill">SSH</span>
-        <span class="skill-pill">APT / Paquets</span>
-        <span class="skill-pill">VirtualBox / VMs</span>
-        <span class="skill-pill">Reverse proxy</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-card-icon">🌐</div>
-      <h4>Réseau & Sécurité</h4>
-      <div class="skill-pills">
-        <span class="skill-pill">Modèle OSI (L2/L3)</span>
-        <span class="skill-pill">DNS / DHCP</span>
-        <span class="skill-pill">NAT & Routage</span>
-        <span class="skill-pill">Traefik</span>
-        <span class="skill-pill">Nginx / Apache</span>
-        <span class="skill-pill">Cryptographie SSH</span>
-        <span class="skill-pill">Sudo / Permissions</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-card-icon">🛠️</div>
-      <h4>Méthodes & Outils</h4>
-      <div class="skill-pills">
-        <span class="skill-pill">Agile / Scrum</span>
-        <span class="skill-pill">GitLab CI</span>
-        <span class="skill-pill">Markdown / Docs</span>
-        <span class="skill-pill">VS Code</span>
-        <span class="skill-pill">IntelliJ IDEA</span>
-        <span class="skill-pill">UML</span>
-        <span class="skill-pill">Diagrammes de classes</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-card-icon">☁️</div>
-      <h4>En cours d'apprentissage</h4>
-      <div class="skill-pills">
-        <span class="skill-pill">React / Node.js</span>
-        <span class="skill-pill">Docker Compose</span>
-        <span class="skill-pill">CI/CD pipelines</span>
-        <span class="skill-pill">Kubernetes (notions)</span>
-        <span class="skill-pill">TypeScript</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-card-icon">🎓</div>
-      <h4>Unités d'enseignement</h4>
-      <div class="skill-pills">
-        <span class="skill-pill">UE1 · Implémentation</span>
-        <span class="skill-pill">UE2 · Développement</span>
-        <span class="skill-pill">UE3 · Administration</span>
-        <span class="skill-pill">UE5 · Analyse</span>
-        <span class="skill-pill">UE6 · Collaboration</span>
+      <p style="font-size:.82rem">Soft skills :</p>
+      <div class="softags">
+        <span class="tag">💡 Curiosité</span><span class="tag">🤝 Équipe</span><span class="tag">🔍 Rigueur</span><span class="tag">📝 Documentation</span><span class="tag">⚡ Autonomie</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── PROJECTS ─── -->
-<section id="projects" style="background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-  <div class="section-label">03 · Projets</div>
-  <h2 class="section-title">Ce que j'ai construit</h2>
-  <p class="section-intro">Chaque projet présenté ici documente le contexte, ma contribution personnelle, les compétences mobilisées et mon analyse réflexive.</p>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="slabel">02 · Projets</div>
+  <h2>Ce que j'ai construit</h2>
 
   <!-- STAGE ADEO -->
-  <div class="stage-banner">
-    <div class="project-number">Stage · S4 · Adeo · Avril–Juin 2026</div>
-    <div class="project-title">Développeur Full-Stack — Adeo</div>
-    <div class="project-meta">Stage 10 semaines · 7 avril → 12 juin 2026 · Leroy Merlin / Adeo Group · Lezennes</div>
-    <div class="project-stack" style="margin-top:12px; justify-content: flex-start;">
-      <span class="tag accent">React</span>
-      <span class="tag">Node.js</span>
-      <span class="tag">TypeScript</span>
-      <span class="tag">Docker</span>
-      <span class="tag">Git</span>
-      <span class="tag">APIs REST</span>
-    </div>
-    <div class="stage-inner">
-      <div class="stage-section">
-        <h5>Contexte & mission</h5>
-        <p>Dans le cadre de mon S4, j'ai effectué un stage de 10 semaines chez <strong>Adeo</strong> (groupe Leroy Merlin), l'un des leaders mondiaux du bricolage, au sein d'une équipe produit. Ma mission portait sur le développement full-stack de fonctionnalités au sein d'une application interne, en environnement Agile.</p>
-        <p>J'ai participé aux <strong>cérémonies Scrum</strong> (daily, sprint planning, rétrospectives), travaillé sur des tickets réels avec impact direct sur les utilisateurs internes, et j'ai appris à naviguer dans une base de code d'entreprise de grande échelle.</p>
+  <div class="stage">
+    <div class="pc-num">Stage · S4 · 7 avril → 12 juin 2026</div>
+    <div class="pc-title">Développeur Full-Stack — Adeo</div>
+    <div class="pc-meta">Leroy Merlin / Adeo Group · Lezennes · React, Node.js, TypeScript, Docker</div>
+    <div class="stage-body">
+      <div class="ss">
+        <h5>Contexte & apport infra</h5>
+        <p>Mission de développement full-stack en environnement Agile au sein d'une équipe produit. Ce stage peut sembler éloigné de l'infra — il ne l'est pas : comprendre comment une application <strong>consomme le réseau</strong>, génère du trafic et expose ses services, c'est ce qui permet ensuite de mieux dimensionner et sécuriser l'infrastructure qui la supporte.</p>
       </div>
-      <div class="stage-section">
-        <h5>Compétences développées</h5>
-        <div class="competences">
-          <div class="comp-group">
-            <h6>Hard skills</h6>
-            <div class="comp-tags">
-              <span class="comp-tag" style="background:rgba(200,64,47,.15); border-color:rgba(200,64,47,.3); color:#e05a45">React / TS</span>
-              <span class="comp-tag" style="background:rgba(200,64,47,.15); border-color:rgba(200,64,47,.3); color:#e05a45">APIs REST</span>
-              <span class="comp-tag" style="background:rgba(200,64,47,.15); border-color:rgba(200,64,47,.3); color:#e05a45">Tests unitaires</span>
-              <span class="comp-tag" style="background:rgba(200,64,47,.15); border-color:rgba(200,64,47,.3); color:#e05a45">CI/CD</span>
-            </div>
-          </div>
-          <div class="comp-group">
-            <h6>Soft skills</h6>
-            <div class="comp-tags">
-              <span class="comp-tag" style="background:rgba(45,106,79,.15); border-color:rgba(45,106,79,.3); color:#52b788">Intégration équipe</span>
-              <span class="comp-tag" style="background:rgba(45,106,79,.15); border-color:rgba(45,106,79,.3); color:#52b788">Communication pro</span>
-              <span class="comp-tag" style="background:rgba(45,106,79,.15); border-color:rgba(45,106,79,.3); color:#52b788">Autonomie</span>
-              <span class="comp-tag" style="background:rgba(45,106,79,.15); border-color:rgba(45,106,79,.3); color:#52b788">Rigueur</span>
-            </div>
-          </div>
-        </div>
-        <div class="stage-reflexion" style="margin-top: 16px;">
-          <p>Ce stage m'a confronté pour la première fois à un code de production à grande échelle. La difficulté principale a été de comprendre rapidement une architecture complexe sans documentation exhaustive. J'ai appris à poser les bonnes questions, à lire du code que je n'ai pas écrit, et à produire du code propre sous contrainte de temps. Si c'était à refaire, j'investirais davantage de temps en amont à cartographier l'architecture avant de coder.</p>
+      <div class="ss">
+        <h5>Ce que j'en retiens</h5>
+        <div class="srbox">
+          <p>La plupart des ingénieurs réseau n'ont jamais touché au code applicatif. Cette expérience m'a donné une double lecture : je sais lire une architecture de l'intérieur. Si c'était à refaire, j'aurais davantage questionné les choix réseau sous-jacents à l'application.</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- SAÉ DÉPLOIEMENT -->
-  <div class="project-card">
-    <div class="project-header">
-      <div class="project-header-left">
-        <div class="project-number">SAÉ B · S2 — Déploiement d'une application</div>
-        <div class="project-title">Infrastructure de déploiement multi-VMs</div>
-        <div class="project-meta">Projet en binôme · 5 semaines · Semestres 2–3</div>
+  <div class="pc">
+    <div class="pc-head">
+      <div>
+        <div class="pc-num">SAÉ B · S2 — Déploiement d'application</div>
+        <div class="pc-title">Infrastructure multi-VMs & automatisation</div>
+        <div class="pc-meta">Binôme · Debian · Docker · PostgreSQL · Traefik · Bash</div>
       </div>
-      <div class="project-stack">
-        <span class="tag">Linux Debian</span>
-        <span class="tag">Bash</span>
-        <span class="tag">Docker</span>
-        <span class="tag">PostgreSQL</span>
-        <span class="tag">Traefik</span>
-        <span class="tag">SSH</span>
-        <span class="tag">Nginx</span>
-        <span class="tag">VirtualBox</span>
+      <div class="pc-stack">
+        <span class="tag">Linux</span><span class="tag">Bash</span><span class="tag">Docker</span><span class="tag">Traefik</span><span class="tag">PostgreSQL</span><span class="tag">Nginx</span>
       </div>
     </div>
-    <div class="project-body">
-      <div class="project-section">
-        <h5>Contexte & objectifs</h5>
-        <p>L'objectif de cette SAÉ était de déployer une <strong>infrastructure complète de communication</strong> basée sur le protocole Matrix (serveur Synapse + client Element Web), en partant de zéro sur des machines virtuelles Debian. Le projet couvrait 5 semaines progressives : mise en place SSH, configuration réseau statique, installation PostgreSQL, déploiement de Synapse, mise en place d'un reverse proxy Nginx, puis migration vers une architecture multi-VMs segmentée.</p>
-        <h5 style="margin-top:20px;">Mon rôle & contributions</h5>
-        <p>J'ai contribué à la <strong>totalité des étapes</strong> : configuration SSH avec clés asymétriques, scripting Bash pour automatiser les installations, paramétrage PostgreSQL avec contrôle d'accès par IP, et mise en place d'un reverse proxy Traefik en conteneur Docker. J'ai également rédigé un <strong>script de déploiement automatisé</strong> (<code>deploy.sh</code>) permettant de déployer l'infrastructure complète ou d'ajouter un nouveau client Dolibarr avec une seule commande.</p>
-        <p>J'ai pris en charge la partie <strong>sécurisation</strong> : désactivation du login root SSH, configuration de sudo, contrôle des flux réseau entre les VMs.</p>
+    <div class="pc-body">
+      <div class="ps">
+        <h5>Contexte & rôle</h5>
+        <p>Déploiement d'un serveur Matrix (Synapse + Element Web) sur VMs Debian : configuration réseau statique, SSH avec clés asymétriques, PostgreSQL, reverse proxy, architecture multi-VMs segmentée. J'ai écrit le <strong>script d'automatisation</strong> <code>deploy.sh</code> permettant de déployer l'infra complète en une commande.</p>
       </div>
-      <div class="project-section">
-        <h5>Compétences mobilisées</h5>
-        <div class="competences">
-          <div class="comp-group">
-            <h6>Hard skills</h6>
-            <div class="comp-tags">
-              <span class="comp-tag">Administration Linux</span>
-              <span class="comp-tag">Scripting Bash avancé</span>
-              <span class="comp-tag">Réseau TCP/IP</span>
-              <span class="comp-tag">PostgreSQL</span>
-              <span class="comp-tag">Docker</span>
-              <span class="comp-tag">Reverse proxy</span>
-              <span class="comp-tag">Cryptographie SSH</span>
-            </div>
-          </div>
-          <div class="comp-group">
-            <h6>Soft skills</h6>
-            <div class="comp-tags">
-              <span class="comp-tag">Documentation rigoureuse</span>
-              <span class="comp-tag">Travail en binôme</span>
-              <span class="comp-tag">Résolution d'incidents</span>
-              <span class="comp-tag">Autonomie</span>
-            </div>
-          </div>
+      <div class="ps">
+        <h5>Compétences</h5>
+        <div class="ctags">
+          <span class="ctag">Admin Linux</span><span class="ctag">Bash avancé</span><span class="ctag">Réseau TCP/IP</span><span class="ctag">Docker</span><span class="ctag">Reverse proxy</span><span class="ctag">Crypto SSH</span><span class="ctag">Rigueur doc.</span><span class="ctag">Binôme</span>
         </div>
       </div>
     </div>
-    <div class="reflexion-box">
-      <h5>Analyse réflexive</h5>
-      <p>La principale difficulté a été la gestion des problèmes réseau entre VMs, notamment les règles de pare-feu et les permissions PostgreSQL. J'ai appris à <strong>diagnostiquer méthodiquement</strong> : logs, test de connectivité couche par couche, isolation du problème. Ce projet m'a également appris l'importance d'une documentation au fil de l'eau — refaire une installation sans notes aurait pris trois fois plus de temps. Aujourd'hui, je ferais davantage appel à Docker Compose pour simplifier l'orchestration multi-services.</p>
-    </div>
-    <a href="https://gitlab.univ-lille.fr" target="_blank" class="project-link">Voir le dépôt GitLab →</a>
+    <div class="rbox"><p>La principale difficulté : diagnostiquer les problèmes réseau entre VMs couche par couche. J'ai appris à documenter au fil de l'eau — sans notes, refaire une install prend trois fois plus longtemps. Aujourd'hui j'utiliserais Docker Compose dès le départ.</p></div>
+    <a href="https://gitlab.univ-lille.fr" target="_blank" class="plink">Voir le dépôt →</a>
   </div>
 
-  <!-- SAÉ LABYRINTHE -->
-  <div class="project-card">
-    <div class="project-header">
-      <div class="project-header-left">
-        <div class="project-number">SAÉ 3.02 · S3 — Développement d'applications</div>
-        <div class="project-title">Jeu de Labyrinthes</div>
-        <div class="project-meta">Projet en équipe de 4 · 10 semaines · Semestre 3 · 2025–2026</div>
+  <!-- LABYRINTHE -->
+  <div class="pc">
+    <div class="pc-head">
+      <div>
+        <div class="pc-num">SAÉ 3.02 · S3 — Développement d'applications</div>
+        <div class="pc-title">Jeu de Labyrinthes</div>
+        <div class="pc-meta">Équipe de 4 · Java / JavaFX · Agile · Architecture MVC</div>
       </div>
-      <div class="project-stack">
-        <span class="tag">Java</span>
-        <span class="tag">JavaFX</span>
-        <span class="tag">MVC</span>
-        <span class="tag">Algorithmique</span>
-        <span class="tag">Git / GitLab</span>
-        <span class="tag">Agile</span>
+      <div class="pc-stack">
+        <span class="tag">Java</span><span class="tag">JavaFX</span><span class="tag">MVC</span><span class="tag">Git</span><span class="tag">Agile</span>
       </div>
     </div>
-    <div class="project-body">
-      <div class="project-section">
-        <h5>Contexte & objectifs</h5>
-        <p>Développement en équipe de 4 d'un <strong>jeu de labyrinthes complet en Java</strong> avec interface JavaFX. L'objectif pédagogique couvrait le développement efficace (R3.02), l'analyse UML (R3.03) et la qualité de code (R3.04). Le projet s'est déroulé sur 2 jalons : le premier couvrant les labyrinthes aléatoires avec modes libre et progression, le second ajoutant les labyrinthes parfaits et des fonctionnalités originales.</p>
-        <p>Les labyrinthes sont générés procéduralement avec contraintes : pourcentage de murs, distance minimale entrée-sortie garantie, et plusieurs étapes de difficulté progressive (vision restreinte, carte dynamique…).</p>
-        <h5 style="margin-top:20px;">Mon rôle & contributions</h5>
-        <p>J'ai pris en charge l'<strong>algorithme de génération des labyrinthes parfaits</strong> (basé sur la fusion d'ensembles / Kruskal) et la <strong>vérification du chemin entrée-sortie</strong> via BFS. J'ai également participé à la mise en place de l'architecture MVC stricte et à la coordination Git (gestion des branches, merge requests).</p>
+    <div class="pc-body">
+      <div class="ps">
+        <h5>Contexte & rôle</h5>
+        <p>Jeu complet en Java avec génération procédurale de labyrinthes (aléatoires et parfaits), modes de jeu progressifs et interface JavaFX. J'ai pris en charge l'<strong>algorithme de génération des labyrinthes parfaits</strong> (Kruskal) et la vérification du chemin via BFS.</p>
       </div>
-      <div class="project-section">
-        <h5>Compétences mobilisées</h5>
-        <div class="competences">
-          <div class="comp-group">
-            <h6>Hard skills</h6>
-            <div class="comp-tags">
-              <span class="comp-tag">Java avancé</span>
-              <span class="comp-tag">JavaFX / UI</span>
-              <span class="comp-tag">Algorithmes de graphes</span>
-              <span class="comp-tag">BFS / Kruskal</span>
-              <span class="comp-tag">Architecture MVC</span>
-              <span class="comp-tag">Tests unitaires JUnit</span>
-            </div>
-          </div>
-          <div class="comp-group">
-            <h6>Soft skills</h6>
-            <div class="comp-tags">
-              <span class="comp-tag">Travail en équipe Agile</span>
-              <span class="comp-tag">Revues de code</span>
-              <span class="comp-tag">Gestion des délais</span>
-              <span class="comp-tag">Communication</span>
-            </div>
-          </div>
+      <div class="ps">
+        <h5>Compétences</h5>
+        <div class="ctags">
+          <span class="ctag">Java avancé</span><span class="ctag">Algorithmes graphes</span><span class="ctag">BFS / Kruskal</span><span class="ctag">MVC strict</span><span class="ctag">JUnit</span><span class="ctag">Travail en équipe</span><span class="ctag">Revues de code</span>
         </div>
       </div>
     </div>
-    <div class="reflexion-box">
-      <h5>Analyse réflexive</h5>
-      <p>Travailler en équipe de 4 sur une base de code partagée a été la plus grande source d'apprentissage — et de friction. Les conflits Git, les désaccords sur l'architecture, la répartition des tâches : tout cela m'a appris à <strong>communiquer précisément sur le code</strong>. J'aurais dû établir dès le début des conventions de nommage et une architecture clairement documentée. Ce que je retiens surtout : une bonne architecture prise tôt évite des heures de refactoring tard.</p>
-    </div>
-    <a href="https://gitlab.univ-lille.fr/sae302/2025/J2_SAE3.3" target="_blank" class="project-link">Voir le code sur GitLab →</a>
+    <div class="rbox"><p>La gestion Git à 4 et les désaccords d'architecture ont été le vrai apprentissage. Une convention de nommage établie dès le début aurait évité des heures de refactoring. Bonne architecture tôt = moins de dette plus tard.</p></div>
+    <a href="https://gitlab.univ-lille.fr/sae302/2025/J2_SAE3.3" target="_blank" class="plink">Voir le code →</a>
   </div>
 
-  <!-- SAÉ FORGE -->
-  <div class="project-card">
-    <div class="project-header">
-      <div class="project-header-left">
-        <div class="project-number">SAÉ · S1–S2 — Infrastructure Forge</div>
-        <div class="project-title">Forge logicielle Gitea sous Debian 12</div>
-        <div class="project-meta">Projet individuel · Semestres 1–2</div>
+  <!-- FORGE -->
+  <div class="pc">
+    <div class="pc-head">
+      <div>
+        <div class="pc-num">SAÉ · S1–S2 — Infrastructure</div>
+        <div class="pc-title">Forge logicielle Gitea</div>
+        <div class="pc-meta">Individuel · Debian 12 · Gitea · Nginx · Bash / Cron</div>
       </div>
-      <div class="project-stack">
-        <span class="tag">Linux Debian</span>
-        <span class="tag">Gitea</span>
-        <span class="tag">Bash</span>
-        <span class="tag">Cron</span>
-        <span class="tag">SSH</span>
+      <div class="pc-stack">
+        <span class="tag">Linux</span><span class="tag">Gitea</span><span class="tag">Nginx</span><span class="tag">Bash</span>
       </div>
     </div>
-    <div class="project-body">
-      <div class="project-section">
-        <h5>Contexte & objectifs</h5>
-        <p>Installation, sécurisation et maintenance d'une <strong>forge logicielle Gitea</strong> auto-hébergée sur une VM Debian 12. L'objectif était de mettre en place un environnement de développement collaboratif fonctionnel : dépôts Git, gestion des utilisateurs, webhooks, et sauvegardes automatisées.</p>
-        <h5 style="margin-top:20px;">Mon rôle & contributions</h5>
-        <p>Installation from scratch de Gitea, configuration du reverse proxy Nginx, mise en place de <strong>scripts Bash d'automatisation des sauvegardes</strong> via cron, et durcissement de la configuration SSH (désactivation de l'accès root, authentification par clés uniquement).</p>
+    <div class="pc-body">
+      <div class="ps">
+        <h5>Contexte & rôle</h5>
+        <p>Installation et sécurisation d'une forge Gitea auto-hébergée : reverse proxy Nginx, sauvegardes automatisées via cron, durcissement SSH (désactivation root, clés uniquement).</p>
       </div>
-      <div class="project-section">
-        <h5>Compétences mobilisées</h5>
-        <div class="competences">
-          <div class="comp-group">
-            <h6>Hard skills</h6>
-            <div class="comp-tags">
-              <span class="comp-tag">Administration système</span>
-              <span class="comp-tag">Bash / Cron</span>
-              <span class="comp-tag">Nginx config</span>
-              <span class="comp-tag">Sécurité SSH</span>
-              <span class="comp-tag">Gestion services systemd</span>
-            </div>
-          </div>
-          <div class="comp-group">
-            <h6>Soft skills</h6>
-            <div class="comp-tags">
-              <span class="comp-tag">Autonomie</span>
-              <span class="comp-tag">Démarche documentaire</span>
-              <span class="comp-tag">Rigueur</span>
-            </div>
-          </div>
+      <div class="ps">
+        <h5>Compétences</h5>
+        <div class="ctags">
+          <span class="ctag">Admin système</span><span class="ctag">Nginx config</span><span class="ctag">Bash / Cron</span><span class="ctag">Sécurité SSH</span><span class="ctag">Systemd</span><span class="ctag">Autonomie</span>
         </div>
       </div>
     </div>
-    <div class="reflexion-box">
-      <h5>Analyse réflexive</h5>
-      <p>Ce projet m'a initié à l'administration système réelle. La difficulté principale a été la gestion des permissions et des droits sous Linux — une erreur de chmod peut tout casser silencieusement. J'ai appris à <strong>tester de manière systématique</strong> après chaque modification. Avec le recul, j'aurais utilisé Docker dès le départ pour isoler le service et simplifier les mises à jour.</p>
-    </div>
-  </div>
-
-  <!-- PORTFOLIO -->
-  <div class="project-card">
-    <div class="project-header">
-      <div class="project-header-left">
-        <div class="project-number">Projet personnel — Web</div>
-        <div class="project-title">Portfolio numérique</div>
-        <div class="project-meta">Projet personnel · 2025–2026 · GitHub Pages</div>
-      </div>
-      <div class="project-stack">
-        <span class="tag">HTML/CSS</span>
-        <span class="tag">JavaScript</span>
-        <span class="tag">GitHub Pages</span>
-        <span class="tag">Design</span>
-      </div>
-    </div>
-    <div class="project-body">
-      <div class="project-section">
-        <h5>Contexte & objectifs</h5>
-        <p>Conception et développement de ce site portfolio en HTML/CSS/JS vanilla, sans framework, hébergé sur GitHub Pages. L'objectif était double : avoir un support de présentation professionnelle et approfondir mes compétences front-end (accessibilité, responsive, thème sombre/clair, animations CSS).</p>
-      </div>
-      <div class="project-section">
-        <h5>Compétences mobilisées</h5>
-        <div class="competences">
-          <div class="comp-group">
-            <h6>Hard skills</h6>
-            <div class="comp-tags">
-              <span class="comp-tag">HTML sémantique</span>
-              <span class="comp-tag">CSS Grid / Flexbox</span>
-              <span class="comp-tag">Animations CSS</span>
-              <span class="comp-tag">JS vanilla</span>
-              <span class="comp-tag">Design responsive</span>
-            </div>
-          </div>
-          <div class="comp-group">
-            <h6>Soft skills</h6>
-            <div class="comp-tags">
-              <span class="comp-tag">Créativité</span>
-              <span class="comp-tag">Sens esthétique</span>
-              <span class="comp-tag">Autonomie</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="reflexion-box">
-      <h5>Analyse réflexive</h5>
-      <p>Ce projet m'a montré qu'un bon design n'est pas seulement esthétique — il raconte quelque chose. J'ai passé plus de temps sur la structure du contenu que sur le CSS. La prochaine version sera construite avec un framework (React ou Astro) pour une meilleure maintenabilité.</p>
-    </div>
-    <a href="https://github.com/alexdupuislepez/portfolio" target="_blank" class="project-link">Voir le dépôt GitHub →</a>
+    <div class="rbox"><p>Une erreur de permissions peut tout casser silencieusement. J'ai appris à tester systématiquement après chaque modification. Avec le recul : Docker dès le départ pour isoler le service.</p></div>
   </div>
 </section>
 
-<!-- ─── PARCOURS ─── -->
+<!-- PARCOURS -->
 <section id="parcours">
-  <div class="section-label">04 · Parcours</div>
-  <h2 class="section-title">Évolution S1 → S4</h2>
-  <p class="section-intro">De la découverte des algorithmes au déploiement d'infrastructures en production.</p>
-  <div class="timeline">
-    <div class="timeline-item">
-      <div class="timeline-date">Avr–Juin 2026 · S4</div>
-      <div class="timeline-title">Stage Développeur Full-Stack — Adeo</div>
-      <div class="timeline-sub">Lezennes · React, Node.js, TypeScript · Environnement Agile en entreprise</div>
+  <div class="slabel">03 · Parcours</div>
+  <h2>S1 → S4</h2>
+  <div class="tl">
+    <div class="ti">
+      <div class="ti-date">Avr–Juin 2026 · S4</div>
+      <div class="ti-title">Stage Développeur Full-Stack — Adeo</div>
+      <div class="ti-sub">React, Node.js, TypeScript · Environnement Agile en entreprise</div>
     </div>
-    <div class="timeline-item">
-      <div class="timeline-date">2025–2026 · S3</div>
-      <div class="timeline-title">SAÉ 3.02 — Jeu de Labyrinthes</div>
-      <div class="timeline-sub">Java / JavaFX · Équipe de 4 · Algorithmes de graphes · Architecture MVC</div>
+    <div class="ti">
+      <div class="ti-date">2025–2026 · S3</div>
+      <div class="ti-title">SAÉ 3.02 — Jeu de Labyrinthes</div>
+      <div class="ti-sub">Java / JavaFX · Équipe de 4 · Algorithmes · MVC</div>
     </div>
-    <div class="timeline-item">
-      <div class="timeline-date">2024–2025 · S2</div>
-      <div class="timeline-title">SAÉ B — Déploiement d'une application</div>
-      <div class="timeline-sub">Linux · Docker · PostgreSQL · Traefik · Script d'automatisation Bash</div>
+    <div class="ti">
+      <div class="ti-date">2024–2025 · S2</div>
+      <div class="ti-title">SAÉ B — Déploiement d'application</div>
+      <div class="ti-sub">Linux · Docker · PostgreSQL · Traefik · Bash</div>
     </div>
-    <div class="timeline-item">
-      <div class="timeline-date">2024–2025 · S1–S2</div>
-      <div class="timeline-title">SAÉ Forge logicielle</div>
-      <div class="timeline-sub">Gitea · Debian · Nginx · Administration système · Sauvegardes automatisées</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-date">Sept 2024 · Début</div>
-      <div class="timeline-title">Entrée en BUT Informatique — Université de Lille</div>
-      <div class="timeline-sub">Parcours DACS · Déploiement d'Applications Communicantes et Sécurisées</div>
+    <div class="ti">
+      <div class="ti-date">Sept 2024</div>
+      <div class="ti-title">Entrée en BUT Informatique DACS — Université de Lille</div>
+      <div class="ti-sub">Spécialisation Déploiement d'Applications Communicantes et Sécurisées</div>
     </div>
   </div>
 </section>
 
-<!-- ─── FOOTER / CONTACT ─── -->
+<!-- CONTACT -->
 <footer id="contact">
   <h2>Travaillons ensemble.</h2>
-  <p>Recherche alternance ou poursuite d'études · Spécialisation Dev & Ops</p>
-  <div class="social-row">
-    <a href="mailto:alexdupuislepez@gmail.com" class="social-btn">✉ Email</a>
-    <a href="https://www.linkedin.com/in/alex-dupuis-lepez-082394346" target="_blank" class="social-btn">in LinkedIn</a>
-    <a href="https://gitlab.univ-lille.fr/alex.dupuis-lepez.etu" target="_blank" class="social-btn">⌥ GitLab Univ</a>
-    <a href="https://github.com" target="_blank" class="social-btn">⌥ GitHub</a>
+  <p>Recherche alternance · Infra / Réseau / Sécurité</p>
+  <div class="socials">
+    <a href="mailto:alexdupuislepez@gmail.com" class="sbtn">✉ Email</a>
+    <a href="https://www.linkedin.com/in/alex-dupuis-lepez-082394346" target="_blank" class="sbtn">LinkedIn</a>
+    <a href="https://gitlab.univ-lille.fr/alex.dupuis-lepez.etu" target="_blank" class="sbtn">GitLab</a>
+    <a href="https://github.com" target="_blank" class="sbtn">GitHub</a>
   </div>
-  <div class="footer-copy">© 2026 Alex Dupuis-Lepez · Portfolio BUT Informatique · Université de Lille</div>
+  <div class="copy">© 2026 Alex Dupuis-Lepez · BUT Informatique DACS · Université de Lille</div>
 </footer>
 
 <script>
-const btn = document.getElementById('theme-btn');
-let dark = false;
-const saved = localStorage.getItem('theme');
-if (saved === 'dark') { dark = true; document.body.setAttribute('data-theme','dark'); btn.textContent = '☀ Clair'; }
-
-function toggleTheme() {
-  dark = !dark;
-  if (dark) {
-    document.body.setAttribute('data-theme','dark');
-    localStorage.setItem('theme','dark');
-    btn.textContent = '☀ Clair';
-  } else {
-    document.body.removeAttribute('data-theme');
-    localStorage.setItem('theme','light');
-    btn.textContent = '☾ Sombre';
-  }
-}
+const btn=document.getElementById('tbtn');
+let dark=localStorage.getItem('theme')==='dark';
+if(dark){document.body.setAttribute('data-theme','dark');btn.textContent='☀ Clair'}
+function toggleTheme(){dark=!dark;dark?(document.body.setAttribute('data-theme','dark'),localStorage.setItem('theme','dark'),btn.textContent='☀ Clair'):(document.body.removeAttribute('data-theme'),localStorage.setItem('theme','light'),btn.textContent='☾ Sombre')}
 </script>
 </body>
 </html>
